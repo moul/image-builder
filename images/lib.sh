@@ -36,6 +36,11 @@ debootstrap() {
 	"$SCRIPT"
 }
 
+upgrade_debs() {
+    secondstage apt-get update
+    secondstage apt-get upgrade
+}
+
 secondstage() {
     # This step could be done directly by removing 
     sudo chroot "$TARGET" /debootstrap/debootstrap --second-stage
@@ -51,11 +56,14 @@ patch_target() {
 
 clean_target() {
     clean_paths=$1
-    echo apt-get clean | do_in_target
+    do_in_target apt-get clean
     for path in $clean_paths; do
 	if [ -e "$TARGET/$path" ]; then
 	    sudo rm -rf "$TARGET/$path"
 	fi
+    done
+    for file in $(find "$TARGET/var/log" -type f); do
+	echo | tee $file
     done
 }
 
