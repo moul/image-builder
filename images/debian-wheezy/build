@@ -35,9 +35,11 @@ patch_image() {
     # locales
     do_in_target locale-gen
 
-    echo 'echo "root:toortmptmp" | chpasswd' | do_in_target
-
+    # sysv
+    do_in_target update-rc.d ssh-keys defaults
     
+    # temporary
+    echo 'echo "root:toortmptmp" | chpasswd' | do_in_target
 
     clean_target $CLEAN_PATHS
 }
