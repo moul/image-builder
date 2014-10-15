@@ -1,0 +1,52 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:		sshkeys
+# Required-Start:	$remote_fs $sshd
+# Required-Stop:	$remote_fs $sshd
+# Default-Start:	2 3 4 5
+# Default-Stop:
+# Short-Description:	SSH Keys
+### END INIT INFO
+
+set -e
+
+sshkey_start() {
+    if [ ! -f /root/.ssh/authorized_keys ]
+    then
+        mkdir -p /root/.ssh/
+    fi
+
+    CODE=0
+    while [ $CODE -ne 200 ]
+    do
+        RESPONSE=$(curl --silent --write-out "\n%{http_code}\n" http://169.254.42.42/conf)
+        CODE=$(echo "$RESPONSE" | sed -n '$p')
+        BODY=$(echo "$RESPONSE" | sed '$d')
+
+        test $CODE -eq 200 && break
+        sleep 5
+    done
+
+    echo "$BODY" | grep SSH_PUBLIC_KEYS_'.*'_KEY | cut -d'=' -f 2- | tr -d \' > /root/.ssh/authorized_keys
+}
+
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+	sshkey_start
+	;;
+  reload|force-reload)
+	sshkey_start
+	;;
+  restart)
+	sshkey_start
+	;;
+  *)
+	log_action_msg "Usage: /etc/init.d/ssh-keys {start|restart}" || true
+	exit 1
+esac
+
+exit 0
