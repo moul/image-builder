@@ -1,0 +1,4 @@
+deb http://mirror.cloud.online.net/ubuntu-ports trusty main universe
+
+deb http://ports.ubuntu.com trusty-security main
+deb http://ports.ubuntu.com trusty-security universe

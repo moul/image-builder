@@ -1,0 +1,14 @@
+#!/bin/sh
+# Filename:     /etc/dhcp/dhclient-exit-hooks.d/hostname
+# Purpose:      Used by dhclient-script to set the hostname of the system
+#               to match the DNS information for the host as provided by
+#               DHCP.
+#
+
+echo dhclient-exit-hooks.d/hostname: Dynamic IP address = $new_ip_address
+echo $new_host_name > /etc/hostname
+sed "/^127.0.1.1[ \t].*$/ s/.*$/127.0.1.1\t$new_host_name/" -i /etc/hosts
+sed "/^127.0.0.1[ \t]localhost/ s/localhost.*$/localhost $new_host_name/" -i /etc/hosts
+hostname $new_host_name
+echo dhclient-exit-hooks.d/hostname: Dynamic Hostname = $new_host_name
+
