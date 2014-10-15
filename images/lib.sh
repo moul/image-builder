@@ -63,7 +63,7 @@ clean_target() {
 	fi
     done
     for file in $(find "$TARGET/var/log" -type f); do
-	echo | tee $file
+	echo | sudo tee $file
     done
 }
 
