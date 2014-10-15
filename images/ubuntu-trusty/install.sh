@@ -10,19 +10,28 @@ COMPONENTS="main,universe"
 PKGS_INCLUDE="ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client"
 MIRROR="http://mirror.cloud.online.net/ubuntu-ports/"
 VERSION="trusty"
-TARGET="rootfs-target"
+TARGET=${TARGET:-rootfs-target}
 CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname"
 SCRIPT=""
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 
+prepare_nbd_volume() {
+    DEVICE=$1
+    if [ ! $(mountpoint -q "$TARGET") ]; then
+	sudo mkfs.ext4 "$DEVICE"
+	sudo mkdir -p "$TARGET"
+	sudo mount "$DEVICE" "$TARGET"
+    fi
+}
+
 install_requirements() {
     type -P debootstrap >/dev/null && return
-    apt-get update
-    apt-get -y install debootstrap
+    sudo apt-get update
+    sudo apt-get -y install debootstrap
 }
 
 run_clean_workspace() {
-    rm -rf "$TARGET"
+    sudo rm -rf "$TARGET"
 }
 
 run_debootstrap() {
@@ -61,17 +70,33 @@ run_clean_target() {
 }
 
 run_archive_target() {
-    tar -C "$TARGET" -czf "$NAME.tar.gz" .
+    sudo tar -C "$TARGET" -czf "$NAME.tar.gz" .
 }
 
 
 main() {
-    install_requirements
-    run_clean_workspace
-    run_debootstrap
-    run_secondstage
-    run_patch_target
-    run_clean_target
-    run_archive_target
+    case $1 in
+	"tarball")
+	    install_requirements
+	    run_clean_workspace
+	    run_debootstrap
+	    run_secondstage
+	    run_patch_target
+	    run_clean_target
+	    run_archive_target
+	    exit 0
+	    ;;
+	"image")
+	    install_requirements
+	    prepare_nbd_volume $2
+	    run_debootstrap
+	    run_secondstage
+	    run_patch_target
+	    run_clean_target
+	    exit 0
+	    ;;
+    esac
+    echo >&2 "usage: $0 [tarball|image]"
+    exit 1
 }
-main
+main $@
