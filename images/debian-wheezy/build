@@ -36,11 +36,6 @@ patch_image() {
 
     echo 'echo "root:toortmptmp" | chpasswd' | do_in_target
 
-    # hack to use standard initrd
-    if [ ! -f "$TARGET/sbin/init" ]; then
-	sudo ln -s /usr/lib/systemd/systemd "$TARGET/sbin/init"
-    fi
-
     clean_target $CLEAN_PATHS
 }
 
