@@ -2,3 +2,4 @@ rootfs-target/
 .*~
 *#
 .#*
+rootfs-*.tar.gz
