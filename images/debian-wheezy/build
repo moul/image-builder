@@ -30,6 +30,9 @@ build_image() {
     # locales
     do_in_target locale-gen
 
+    # hack to use standard initrd
+    sudo ln -s /usr/lib/systemd/systemd "$TARGET/sbin/init"
+
     clean_target $CLEAN_PATHS
 }
 
