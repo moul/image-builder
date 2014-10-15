@@ -5,7 +5,7 @@
 # Image
 DISTRIB="ubuntu"
 TARGET=${TARGET:-"rootfs-target"}
-CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname"
+CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /etc/ssh/*_key*"
 PATCHES_DIR=patches  # without trailing slash
 
 # Debootstrap configuration
