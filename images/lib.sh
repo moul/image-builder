@@ -63,8 +63,16 @@ archive_target() {
     sudo tar -C "$TARGET" -czf "$NAME.tar.gz" .
 }
 
+chroot_in_target() {
+    chroot "$TARGET"
+}
+
 cli() {
     case $1 in
+	"dev")
+	    build_image
+	    exit 0
+	    ;;
 	"tarball")
 	    build_image
 	    archive_target
@@ -77,6 +85,6 @@ cli() {
 	    exit 0
 	    ;;
     esac
-    echo >&2 "usage: [DEBUG=1] $0 (tarball|image)"
+    echo >&2 "usage: [DEBUG=1] $0 (tarball|image|dev)"
     exit 1
 }
