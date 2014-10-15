@@ -1,0 +1,37 @@
+#!/bin/bash
+
+. ../lib.sh  # Include library
+
+# Image
+DISTRIB="debian"
+TARGET=${TARGET:-"rootfs-target"}
+CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /etc/ssh/*_key*"
+PATCHES_DIR=patches  # without trailing slash
+
+# Debootstrap configuration
+ARCH=${ARCH:-"armhf"}
+VARIANT=${VARIANT:-"minbase"}
+COMPONENTS=${COMPONENTS:-"main"}
+PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client,locales"}
+MIRROR=${MIRROR:-"http://ftp.fr.debian.org/debian/"}
+VERSION=${VERSION:-"wheezy"}
+SCRIPT=""
+
+
+# Required
+NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
+build_image() {
+    require_debootstrap
+    clean_workspace
+    debootstrap
+    secondstage
+    patch_target $PATCHES_DIR
+
+    # locales
+    do_in_target locale-gen
+
+    clean_target $CLEAN_PATHS
+}
+
+
+cli $@
