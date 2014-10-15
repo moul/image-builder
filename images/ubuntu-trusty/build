@@ -7,19 +7,19 @@ DISTRIB="ubuntu"
 TARGET=${TARGET:-"rootfs-target"}
 CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname"
 PATCHES_DIR=patches  # without trailing slash
-NAME==${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 
 # Debootstrap configuration
-ARCH="armhf"
-VARIANT="minbase"
-COMPONENTS="main,universe"
-PKGS_INCLUDE="ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client"
-MIRROR="http://mirror.cloud.online.net/ubuntu-ports/"
-VERSION="trusty"
+ARCH=${ARCH:-"armhf"}
+VARIANT=${VARIANT:-"minbase"}
+COMPONENTS=${COMPONENTS:-"main,universe"}
+PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client"}
+MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
+VERSION=${VERSION:-"trusty"}
 SCRIPT=""
 
 
-# Entrypoint
+# Required
+NAME==${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 build_image() {
     require_debootstrap
     clean_workspace
