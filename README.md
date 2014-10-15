@@ -1,7 +1,10 @@
-ocs-image-builder
+OCS Image Builder
 =================
 
 Image builder scripts for OCS Cloud (labs.online.net)
+
+Examples
+--------
 
 Build a tarball of ubuntu-trusty
 
