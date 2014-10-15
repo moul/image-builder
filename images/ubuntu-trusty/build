@@ -19,7 +19,7 @@ SCRIPT=""
 
 
 # Required
-NAME==${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
+NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 build_image() {
     require_debootstrap
     clean_workspace
