@@ -29,6 +29,7 @@ build_image() {
 
     # locales
     do_in_target locale-gen en_US.UTF-8
+    do_in_target locale-gen fr_FR.UTF-8
     do_in_target dpkg-reconfigure locales
 
     clean_target $CLEAN_PATHS
