@@ -51,20 +51,20 @@ patch_target() {
 
 clean_target() {
     clean_paths=$1
+    echo apt-get clean | do_in_target
     for path in $clean_paths; do
 	if [ -e "$TARGET/$path" ]; then
 	    sudo rm -rf "$TARGET/$path"
 	fi
     done
-    echo apt-get clean | sudo chroot "$TARGET"
 }
 
 archive_target() {
     sudo tar -C "$TARGET" -czf "$NAME.tar.gz" .
 }
 
-chroot_in_target() {
-    chroot "$TARGET"
+do_in_target() {
+    sudo chroot "$TARGET" $@
 }
 
 cli() {
