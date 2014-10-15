@@ -26,6 +26,9 @@ build_image() {
     debootstrap
     secondstage
     upgrade_debs
+}
+
+patch_image() {
     patch_target $PATCHES_DIR
 
     # locales

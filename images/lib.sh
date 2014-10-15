@@ -37,8 +37,8 @@ debootstrap() {
 }
 
 upgrade_debs() {
-    secondstage apt-get update
-    secondstage apt-get upgrade
+    do_in_target apt-get update
+    do_in_target apt-get upgrade
 }
 
 secondstage() {
@@ -79,10 +79,12 @@ cli() {
     case $1 in
 	"dev")
 	    build_image
+	    patch_image
 	    exit 0
 	    ;;
 	"tarball")
 	    build_image
+	    patch_image
 	    archive_target
 	    exit 0
 	    ;;
@@ -90,6 +92,11 @@ cli() {
 	    NBD_DEVICE=$2
 	    prepare_nbd_volume $NBD_DEVICE
 	    build_image
+	    patch_image
+	    exit 0
+	    ;;
+	"patch")
+	    patch_image
 	    exit 0
 	    ;;
     esac

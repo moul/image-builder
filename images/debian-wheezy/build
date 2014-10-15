@@ -26,10 +26,15 @@ build_image() {
     debootstrap
     secondstage
     upgrade_debs
+}
+
+patch_image() {
     patch_target $PATCHES_DIR
 
     # locales
     do_in_target locale-gen
+
+    echo 'echo "root:toortmptmp" | chpasswd' | do_in_target
 
     # hack to use standard initrd
     sudo ln -s /usr/lib/systemd/systemd "$TARGET/sbin/init"
