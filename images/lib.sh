@@ -38,7 +38,7 @@ debootstrap() {
 
 upgrade_debs() {
     do_in_target apt-get update
-    do_in_target apt-get upgrade
+    do_in_target apt-get -y upgrade
 }
 
 secondstage() {
