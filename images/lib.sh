@@ -77,18 +77,11 @@ do_in_target() {
 
 cli() {
     case $1 in
-	"clean")
-	    echo "not yet implemented"
-	    exit 1
-	    ;;
-	"dev")
-	    build_image
-	    patch_image
-	    exit 0
-	    ;;
 	"tarball")
 	    build_image
 	    patch_image
+	    upgrade_image
+	    clean_image
 	    archive_target
 	    exit 0
 	    ;;
@@ -97,16 +90,14 @@ cli() {
 	    prepare_nbd_volume $NBD_DEVICE
 	    build_image
 	    patch_image
+	    upgrade_image
+	    clean_image
 	    exit 0
 	    ;;
-	"patch")
-	    patch_image
-	    exit 0
-	    ;;
-	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume")
+	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume"|"upgrade_image"|"clean_image")
 	    eval $@
 	    ;;
     esac
-    echo >&2 "usage: [DEBUG=1] $0 (tarball|image|dev|patch)"
+    echo >&2 "usage: [DEBUG=1] $0 (tarball|image)"
     exit 1
 }

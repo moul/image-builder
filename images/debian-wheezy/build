@@ -30,14 +30,20 @@ build_image() {
 
 patch_image() {
     patch_target $PATCHES_DIR
-    upgrade_debs
 
     # locales
     do_in_target locale-gen
 
     # sysv
     do_in_target update-rc.d ssh-keys defaults
-    
+   
+}
+
+upgrade_image() {
+    upgrade_debs
+}
+
+clean_image() {
     clean_target $CLEAN_PATHS
 }
 
