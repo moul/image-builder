@@ -77,6 +77,10 @@ do_in_target() {
 
 cli() {
     case $1 in
+	"clean")
+	    echo "not yet implemented"
+	    exit 1
+	    ;;
 	"dev")
 	    build_image
 	    patch_image
@@ -100,6 +104,6 @@ cli() {
 	    exit 0
 	    ;;
     esac
-    echo >&2 "usage: [DEBUG=1] $0 (tarball|image|dev)"
+    echo >&2 "usage: [DEBUG=1] $0 (tarball|image|dev|patch)"
     exit 1
 }
