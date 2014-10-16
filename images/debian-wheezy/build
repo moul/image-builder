@@ -44,5 +44,6 @@ patch_image() {
     clean_target $CLEAN_PATHS
 }
 
-
-cli $@
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
