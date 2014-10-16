@@ -56,7 +56,6 @@ patch_target() {
 
 clean_target() {
     clean_paths=$1
-    do_in_target apt-get clean
     for path in $clean_paths; do
 	if [ -e "$TARGET/$path" ]; then
 	    sudo rm -rf "$TARGET/$path"
