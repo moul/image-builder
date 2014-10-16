@@ -29,8 +29,8 @@ build_image() {
 }
 
 patch_image() {
-    upgrade_debs
     patch_target $PATCHES_DIR
+    upgrade_debs
 
     # locales
     do_in_target locale-gen
