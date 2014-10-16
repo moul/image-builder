@@ -1,43 +1,11 @@
 #!/bin/bash
 
-. ../lib.sh  # Include library
+. ../ubuntu-trusty/build --source-only
 
-# Image
-DISTRIB="ubuntu"
-TARGET=${TARGET:-"rootfs-target"}
-CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /etc/ssh/*_key* /var/log/bootstrap.log"
-PATCHES_DIR=patches  # without trailing slash
-
-# Debootstrap configuration
-ARCH=${ARCH:-"armhf"}
-VARIANT=${VARIANT:-"minbase"}
-COMPONENTS=${COMPONENTS:-"main,universe"}
-PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,curl,iptables,iputils-ping,isc-dhcp-client,less,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client,lsof,socat,tmux"}
-MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
-VERSION=${VERSION:-"trusty"}
-SCRIPT=""
-
-
-# Required
+PATCHES_DIR=../ubuntu-trusty/patches  # without trailing slash
+PKGS_INCLUDE="ca-certificates,curl,iptables,iputils-ping,isc-dhcp-client,less,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client,lsof,socat,tmux,htop,busybox,tcpdump,screen,traceroute,ethstatus,iperf,iotop"
 NAME=${NAME:-"rootfs-$ARCH-rescue"}
-build_image() {
-    require_debootstrap
-    clean_workspace
-    debootstrap
-    secondstage
-}
 
-patch_image() {
-    patch_target $PATCHES_DIR
-    upgrade_debs
-
-    # locales
-    do_in_target locale-gen en_US.UTF-8
-    do_in_target locale-gen fr_FR.UTF-8
-    do_in_target dpkg-reconfigure locales
-
-    clean_target $CLEAN_PATHS
-}
-
-
-cli $@
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
