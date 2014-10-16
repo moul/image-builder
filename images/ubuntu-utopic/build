@@ -1,0 +1,12 @@
+#!/bin/bash
+
+. ../ubuntu-trusty/build --source-only
+
+PATCHES_DIR=../ubuntu-trusty/patches  # without trailing slash
+VERSION="utopic"
+NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
+SCRIPT="/usr/share/debootstrap/scripts/trusty"
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
