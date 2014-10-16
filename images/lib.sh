@@ -103,6 +103,9 @@ cli() {
 	    patch_image
 	    exit 0
 	    ;;
+	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume")
+	    eval $@
+	    ;;
     esac
     echo >&2 "usage: [DEBUG=1] $0 (tarball|image|dev|patch)"
     exit 1
