@@ -1,7 +1,7 @@
-Image Builder for Online Labs' cloud
-====================================
+Image Builder
+=============
 
-Image builder scripts for OCS Cloud (labs.online.net)
+Scripts used to build the official images on http://labs.online.net/
 
 - [Topic on community.cloud.online.net](https://community.cloud.online.net/t/official-new-linux-distributions-debian-coreos-centos-fedora-arch-linux/229/2)
 
@@ -17,4 +17,3 @@ Build a disk image of debian-wheezy
 
     cd images/debian-wheezy
     ./build image /dev/nbd1
-
