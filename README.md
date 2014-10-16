@@ -1,5 +1,5 @@
-OCS Image Builder
-=================
+Image Builder for Online Labs' cloud
+====================================
 
 Image builder scripts for OCS Cloud (labs.online.net)
 
