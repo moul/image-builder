@@ -41,7 +41,9 @@ upgrade_image() {
 }
 
 clean_image() {
+    do_in_target apt-get clean
     clean_target $CLEAN_PATHS
+    do_in_target apt-get update
 }
 
 
