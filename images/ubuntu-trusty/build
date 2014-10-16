@@ -25,10 +25,10 @@ build_image() {
     clean_workspace
     debootstrap
     secondstage
-    upgrade_debs
 }
 
 patch_image() {
+    upgrade_debs
     patch_target $PATCHES_DIR
 
     # locales
