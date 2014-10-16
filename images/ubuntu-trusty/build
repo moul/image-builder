@@ -29,13 +29,18 @@ build_image() {
 
 patch_image() {
     patch_target $PATCHES_DIR
-    upgrade_debs
 
     # locales
     do_in_target locale-gen en_US.UTF-8
     do_in_target locale-gen fr_FR.UTF-8
     do_in_target dpkg-reconfigure locales
+}
 
+upgrade_image() {
+    upgrade_debs
+}
+
+clean_image() {
     clean_target $CLEAN_PATHS
 }
 
