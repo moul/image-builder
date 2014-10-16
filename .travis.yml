@@ -1,0 +1,4 @@
+language: bash
+
+script:
+    - for file in images/*/build images/lib.sh; do bash -n $file; done
