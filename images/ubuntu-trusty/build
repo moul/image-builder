@@ -27,7 +27,7 @@ build_image() {
     secondstage
 }
 
-patch_image() {
+ubuntu_trusty_patch_image() {
     patch_target $PATCHES_DIR
 
     # locales
@@ -35,6 +35,8 @@ patch_image() {
     do_in_target locale-gen fr_FR.UTF-8
     do_in_target dpkg-reconfigure locales
 }
+patch_image() { ubuntu_trusty_patch_image }
+
 
 upgrade_image() {
     upgrade_debs

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. ../ubuntu-utopic/build --source-only
+
+DISTRIB=ubuntu-with-docker
+NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
+SCRIPT="/usr/share/debootstrap/scripts/trusty"
+
+patch_image() {
+    ubuntu_utopic_patch_image
+
+    # Install docker
+    wget -O /tmp/docker.deb https://launchpad.net/ubuntu/utopic/armhf/docker.io/package.deb
+    dpkg -i /tmp/docker.deb
+    rm -f /tmp/docker.deb
+}
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
