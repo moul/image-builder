@@ -85,7 +85,7 @@ cli() {
 	    exit 0
 	    ;;
 	"image")
-	    NBD_DEVICE=$2
+	    NBD_DEVICE=${2:-"/dev/nbd1"}
 	    prepare_nbd_volume $NBD_DEVICE
 	    build_image
 	    patch_image
