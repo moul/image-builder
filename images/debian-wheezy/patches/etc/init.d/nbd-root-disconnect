@@ -1,0 +1,37 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:		nbd-disconnect-root
+# Required-Start:	$remote_fs
+# Required-Stop:	$remote_fs
+# Default-Start:	6
+# Default-Stop:
+# Short-Description:	NBD disconnect root
+### END INIT INFO
+
+set -e
+
+nbddisconnectroot_start() {
+    if [ -x /usr/sbin/nbd-disconnect-root ]; then
+        /usr/sbin/nbd-disconnect-root&
+    fi
+}
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+
+case "$1" in
+  start)
+	nbddisconnectroot_start
+	;;
+  reload|force-reload)
+	nbddisconnectroot_start
+	;;
+  restart)
+	nbddisconnectroot_start
+	;;
+  *)
+	log_action_msg "Usage: /etc/init.d/ssh-keys {start|restart}" || true
+	exit 1
+esac
+
+exit 0
