@@ -1,0 +1,44 @@
+#!/bin/bash
+
+. ../lib.sh  # Include library
+
+# Image
+DISTRIB="archlinux"
+ARCH=${ARCH:-"armhf"}
+TARGET=${TARGET:-"rootfs-target"}
+CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /etc/ssh/*_key* /var/log/bootstrap.log"
+PATCHES_DIR=patches  # without trailing slash
+PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client"}
+# MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
+VERSION=${VERSION:-"latest"}
+
+
+# Required
+NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
+build_image() {
+    wget -O source.tar.gz \
+        http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-$VERSION.tar.gz
+    tar -C "$TARGET" -xzf source.tar.gz
+}
+
+patch_image() {
+    # FIXME: patch_target $PATCHES_DIR
+
+    # FIXME: locales
+    # - do_in_target locale-gen en_US.UTF-8
+}
+
+upgrade_image() {
+    # FIXME: upgrade security packages
+}
+
+clean_image() {
+    # FIXME: clean package achives
+    clean_target $CLEAN_PATHS
+    # FIXME: reload package index
+}
+
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
