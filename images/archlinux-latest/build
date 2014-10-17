@@ -26,7 +26,10 @@ patch_image() {
 
     # FIXME: locales
     # - do_in_target locale-gen en_US.UTF-8
-    echo
+
+    # ssh server
+    do_in_target pacman -S --noconfirm openssh
+    do_in_target systemctl enable sshd.service
 }
 
 upgrade_image() {
