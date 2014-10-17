@@ -36,7 +36,8 @@ patch_image() {
 
     # sysv
     do_in_target update-rc.d ssh-keys defaults
-   
+    do_in_target update-rc.d sync-kernel-modules defaults
+    do_in_target update-rc.d nbd-root-disconnect defaults
 }
 
 upgrade_image() {
