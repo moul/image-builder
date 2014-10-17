@@ -7,8 +7,12 @@ VERSION="utopic"
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 SCRIPT="/usr/share/debootstrap/scripts/trusty"
 
-ubuntu_utopic_patch_image() { ubuntu_trusty_patch_image }
-patch_image() { ubuntu_utopic_patch_image }
+ubuntu_utopic_patch_image() {
+    ubuntu_trusty_patch_image
+}
+patch_image() {
+    ubuntu_utopic_patch_image
+}
 
 if [ "${1}" != "--source-only" ]; then
     cli $@
