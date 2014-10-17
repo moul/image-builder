@@ -16,12 +16,23 @@ VERSION=${VERSION:-"latest"}
 # Required
 NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 build_image() {
-    wget -O source.tar.gz \
+    sudo wget -O source.tar.gz \
         http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-$VERSION.tar.gz
-    tar -C "$TARGET" -xzf source.tar.gz
+    sudo tar -C "$TARGET" -xzf source.tar.gz
 }
 
 patch_image() {
+    # prepare chroot
+    sudo umount $TARGET/{sys,dev,proc} || true
+    sudo mount -t proc proc $TARGET/proc
+    sudo mount -t sysfs sys $TARGET/sys
+    sudo mount -o bind /dev $TARGET/dev
+    sudo rm -f $TARGET/etc/mtab
+    do_in_target grep -v rootfs /proc/mounts | sudo tee -a $TARGET/etc/mtab
+    sudo mkdir -p $TARGET/run/systemd/resolve
+    sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
+
+
     # FIXME: patch_target $PATCHES_DIR
 
     # FIXME: locales
@@ -30,6 +41,12 @@ patch_image() {
     # ssh server
     do_in_target pacman -S --noconfirm openssh
     do_in_target systemctl enable sshd.service
+
+    # clean chroot
+    sudo rm -f $TARGET/etc/mtab $TARGET/run/systemd/resolve/resolv.conf
+    sudo umount $TARGET/proc
+    sudo umount $TARGET/sys
+    sudo umount $TARGET/dev
 }
 
 upgrade_image() {
