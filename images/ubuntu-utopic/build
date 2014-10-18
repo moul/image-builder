@@ -9,6 +9,9 @@ SCRIPT="/usr/share/debootstrap/scripts/trusty"
 
 ubuntu_utopic_patch_image() {
     ubuntu_trusty_patch_image
+
+    # Override ubuntu-trusty files with ubuntu-utopic files
+    patch_target ./patches
 }
 patch_image() {
     ubuntu_utopic_patch_image
