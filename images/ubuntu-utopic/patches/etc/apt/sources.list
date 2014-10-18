@@ -1,0 +1,4 @@
+deb http://mirror.cloud.online.net/ubuntu-ports utopic main universe
+
+deb http://ports.ubuntu.com utopic-security main
+deb http://ports.ubuntu.com utopic-security universe
