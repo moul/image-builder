@@ -10,6 +10,7 @@ PKGS_INCLUDE="$PKGS_INCLUDE,docker.io"
 
 patch_image() {
     ubuntu_utopic_patch_image
+    patch_target ./patches
 }
 
 if [ "${1}" != "--source-only" ]; then
