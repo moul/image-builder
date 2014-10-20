@@ -40,4 +40,4 @@ pf::powerwait:/etc/init.d/powerfail start
 pn::powerfailnow:/etc/init.d/powerfail now
 po::powerokwait:/etc/init.d/powerfail stop
 
-1:2345:respawn:/sbin/getty 9600 -L ttyS0 9600 vt102
+1:2345:respawn:/sbin/getty -L 9600 ttyS0 vt102
