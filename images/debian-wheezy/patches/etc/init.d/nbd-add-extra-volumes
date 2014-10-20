@@ -2,9 +2,9 @@
 
 ### BEGIN INIT INFO
 # Provides:		nbd-add-extra-volumes
-# Required-Start:	$remote_fs
+# Required-Start:	$remote_fs $local_fs
 # Required-Stop:	$remote_fs
-# Default-Start:	2 3 4 5
+# Default-Start:	S
 # Default-Stop:
 # Short-Description:	NBD add extra volumes
 ### END INIT INFO
