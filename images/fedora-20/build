@@ -15,13 +15,16 @@ VERSION=${VERSION:-"20"}
 # Required
 NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 build_image() {
-    if [ ! -f source.tar.xz ]; then
-	wget -O source.tar.xz \
-            http://mirror.easyspeedy.com/fedora/releases/$VERSION/Images/armhfp/Fedora-Minimal-armhfp-$VERSION-1-sda.raw.xz
+    if [ ! -f sda.raw ]; then
+	if [ ! -f sda.raw.xz ]; then
+	    wget -O sda.raw.xz \
+		http://mirror.easyspeedy.com/fedora/releases/$VERSION/Images/armhfp/Fedora-Minimal-armhfp-$VERSION-1-sda.raw.xz
+	fi
+	unxz sda.raw.xz
     fi
-    unxz source.tar.xz
     umount $NBD_DEVICE
-    dd if=*.raw of=$NBD_DEVICE bs=1M
+    dd if=sda.raw of=$NBD_DEVICE bs=1M
+    mount $NBD_DEVICE $TARGET
 }
 
 patch_image() {
