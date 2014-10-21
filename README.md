@@ -1,8 +1,9 @@
-Image Builder
-=============
+Online Labs - Image Builder
+===========================
 
 Scripts used to build the official images on http://labs.online.net/
 
+- [Images definitions](images)
 - [Topic on community.cloud.online.net](https://community.cloud.online.net/t/official-new-linux-distributions-debian-coreos-centos-fedora-arch-linux/229/2)
 
 Examples
