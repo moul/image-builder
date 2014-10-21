@@ -10,7 +10,7 @@ prepare_nbd_volume() {
 	sudo mkfs.ext4 "$device"
 	sudo mkdir -p "$TARGET.device"
 	sudo mount "$device" "$TARGET.device"
-	rsync -aHAX "$TARGET" "$TARGET.device"
+	rsync -aHAX "$TARGET/" "$TARGET.device"
     fi
 }
 
