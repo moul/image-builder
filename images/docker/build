@@ -5,7 +5,7 @@
 DISTRIB=ubuntu-with-docker
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 SCRIPT="/usr/share/debootstrap/scripts/trusty"
-PKGS_INCLUDE="$PKGS_INCLUDE,docker.io"
+PKGS_INCLUDE="$PKGS_INCLUDE,docker.io,bridge-utils"
 
 docker_patch_image() {
     ubuntu_utopic_patch_image
