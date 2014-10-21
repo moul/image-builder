@@ -19,7 +19,6 @@ patch_image() {
 
     # Install tty.js
     do_in_target npm install -g tty.js
-    sudo ln -s ../lib/node_modules/tty.js/bin/tty.js "$TARGET"/usr/bin/
 
     # Create ubuntu user with sudo access
     do_in_target useradd -G sudo -m ubuntu
