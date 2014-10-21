@@ -1,0 +1,20 @@
+#!/bin/bash
+
+. ../docker/build --source-only
+
+DISTRIB=tryit-docker
+NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
+PKGS_INCLUDE="$PKGS_INCLUDE"
+
+patch_image() {
+    docker_patch_image
+    patch_target ./patches
+
+    # FIXME: install node & npm
+    # FIXME: install tty.js & pty.js
+    # FIXME: add ubuntu user with sudo
+}
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
