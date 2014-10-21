@@ -15,7 +15,9 @@ patch_image() {
     # do_in_target apt-get -y install nodejs
 
     # Create node binary
-    ln -s /usr/bin/nodejs "$TARGET"/usr/bin/node
+    if [ ! -f "$TARGET"/usr/bin/node ]; then
+	sudo ln -s /usr/bin/nodejs "$TARGET"/usr/bin/node
+    fi
 
     # Install tty.js
     do_in_target npm install -g tty.js
