@@ -4,15 +4,23 @@
 
 DISTRIB=tryit-docker
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
-PKGS_INCLUDE="$PKGS_INCLUDE"
+PKGS_INCLUDE="$PKGS_INCLUDE,nodejs,npm"
 
 patch_image() {
     docker_patch_image
     patch_target tryit-docker/patches
 
-    # FIXME: install node & npm
-    # FIXME: install tty.js & pty.js
-    # FIXME: add ubuntu user with sudo
+    # Install nodejs
+    # curl -sL https://deb.nodesource.com/setup | do_in_target bash -
+    # do_in_target apt-get -y install nodejs
+
+    # Install tty.js
+    do_in_target npm install -g tty.js
+
+    # Create ubuntu user with sudo access
+    do_in_target useradd -G sudo -m ubuntu
+    # Remove password for sudo
+    sudo sed -i '/sudo/s/ALL)/ALL) NOPASSWD:/' "$TARGET"/etc/sudoers
 }
 
 if [ "${1}" != "--source-only" ]; then
