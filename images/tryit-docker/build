@@ -15,7 +15,7 @@ patch_image() {
     # do_in_target apt-get -y install nodejs
 
     # Create node binary
-    if [ ! -f "$TARGET"/usr/bin/node ]; then
+    if [ ! -L "$TARGET"/usr/bin/node ]; then
 	sudo ln -s /usr/bin/nodejs "$TARGET"/usr/bin/node
     fi
 
