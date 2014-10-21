@@ -92,6 +92,7 @@ cli() {
 	    upgrade_image
 	    clean_image
 	    prepare_nbd_volume $NBD_DEVICE
+	    sync
 	    exit 0
 	    ;;
 	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume"|"upgrade_image"|"clean_image")
