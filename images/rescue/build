@@ -2,7 +2,6 @@
 
 . ../ubuntu-trusty/build --source-only
 
-PATCHES_DIR=../ubuntu-trusty/patches  # without trailing slash
 PKGS_INCLUDE="ca-certificates,curl,iptables,iputils-ping,isc-dhcp-client,less,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client,lsof,socat,tmux,htop,busybox,tcpdump,screen,traceroute,ethstatus,iperf,iotop,vim"
 NAME=${NAME:-"rootfs-$ARCH-rescue"}
 

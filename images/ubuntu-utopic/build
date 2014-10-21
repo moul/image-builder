@@ -2,7 +2,6 @@
 
 . ../ubuntu-trusty/build --source-only
 
-PATCHES_DIR=../ubuntu-trusty/patches  # without trailing slash
 VERSION="utopic"
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 SCRIPT="/usr/share/debootstrap/scripts/trusty"
@@ -11,7 +10,7 @@ ubuntu_utopic_patch_image() {
     ubuntu_trusty_patch_image
 
     # Override ubuntu-trusty files with ubuntu-utopic files
-    patch_target ./patches
+    patch_target ubuntu-utopic/patches
 }
 patch_image() {
     ubuntu_utopic_patch_image

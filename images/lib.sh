@@ -47,7 +47,7 @@ secondstage() {
 }
 
 patch_target() {
-    patches_dir=$1
+    patches_dir=../$1
     for file in $(find "$patches_dir" -type f | sed -n "s|^$patches_dir/||p"); do
 	sudo mkdir -p "$TARGET/$(dirname $file)"
 	sudo cp "$patches_dir/$file" "$TARGET/$file"

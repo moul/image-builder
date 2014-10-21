@@ -8,7 +8,7 @@ PKGS_INCLUDE="$PKGS_INCLUDE"
 
 patch_image() {
     docker_patch_image
-    patch_target ./patches
+    patch_target tryit-docker/patches
 
     # FIXME: install node & npm
     # FIXME: install tty.js & pty.js
