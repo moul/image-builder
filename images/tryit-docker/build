@@ -21,7 +21,7 @@ patch_image() {
     do_in_target npm install -g tty.js
 
     # Create ubuntu user with sudo access
-    do_in_target useradd -G sudo -m ubuntu
+    do_in_target useradd -G sudo -s /bin/bash -m ubuntu
     # Remove password for sudo
     sudo sed -i '/sudo/s/ALL)/ALL) NOPASSWD:/' "$TARGET"/etc/sudoers
 }
