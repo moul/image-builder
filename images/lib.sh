@@ -8,8 +8,9 @@ prepare_nbd_volume() {
     device=$1
     if ! `mountpoint -q "$TARGET"`; then
 	sudo mkfs.ext4 "$device"
-	sudo mkdir -p "$TARGET"
-	sudo mount "$device" "$TARGET"
+	sudo mkdir -p "$TARGET.device"
+	sudo mount "$device" "$TARGET.device"
+	rsync -aHAX "$TARGET" "$TARGET.device"
     fi
 }
 
@@ -86,11 +87,11 @@ cli() {
 	    ;;
 	"image")
 	    NBD_DEVICE=${2:-"/dev/nbd1"}
-	    prepare_nbd_volume $NBD_DEVICE
 	    build_image
 	    patch_image
 	    upgrade_image
 	    clean_image
+	    prepare_nbd_volume $NBD_DEVICE
 	    exit 0
 	    ;;
 	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume"|"upgrade_image"|"clean_image")
