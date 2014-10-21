@@ -7,10 +7,12 @@ NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 SCRIPT="/usr/share/debootstrap/scripts/trusty"
 PKGS_INCLUDE="$PKGS_INCLUDE,docker.io"
 
-
-patch_image() {
+docker_patch_image() {
     ubuntu_utopic_patch_image
     patch_target ./patches
+}
+patch_image() {
+    docker_patch_image
 }
 
 if [ "${1}" != "--source-only" ]; then
