@@ -1,0 +1,10 @@
+#!/bin/bash
+
+. ../rescue/build --source-only
+
+PKGS_INCLUDE="$PKGS_INCLUDE,debootstrap,xz-utils"
+NAME=${NAME:-"rootfs-$ARCH-builder"}
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
