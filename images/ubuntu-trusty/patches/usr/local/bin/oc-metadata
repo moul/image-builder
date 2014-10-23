@@ -1,11 +1,12 @@
-#!/bin/sh 
+#!/bin/sh
 # description "executable which retrieves server metadata (TEXT)"
 # author "Online Labs Cloud Team <cloud-team@labs.online.net>"
 
 CODE=0
 while [ $CODE -ne 200 ]
 do
-    RESPONSE=$(curl --silent --write-out "\n%{http_CODE}\n" http://169.254.42.42/conf)
+    METADATA_URL=${METADATA_URL:-"http://169.254.42.42/conf"}
+    RESPONSE=$(curl --silent --write-out "\n%{http_CODE}\n" $METADATA_URL)
     CODE=$(echo "$RESPONSE" | sed -n '$p')
     BODY=$(echo "$RESPONSE" | sed '$d')
 
@@ -13,4 +14,9 @@ do
     sleep 5
 done
 
-echo "$BODY"
+if [ "$#" -ne 1 ]; then
+    echo "$BODY"
+else
+    key="$1"
+    echo "$BODY" | grep "^$key=" | cut -d= -f2 | sed "s/^['\"]//;s/['\"]$//"
+fi

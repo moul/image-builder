@@ -1,12 +1,12 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:		nbd-add-extra-volumes
-# Required-Start:	$remote_fs $local_fs
-# Required-Stop:	$remote_fs
-# Default-Start:	S
+# Provides:                nbd-add-extra-volumes
+# Required-Start:        $remote_fs $local_fs
+# Required-Stop:        $remote_fs
+# Default-Start:        S
 # Default-Stop:
-# Short-Description:	NBD add extra volumes
+# Short-Description:        NBD add extra volumes
 ### END INIT INFO
 
 set -e
@@ -16,33 +16,21 @@ nbdaddextravolumes_start() {
     METADATA_CACHE=`mktemp -u`
 
     get_metadata() {
-	if [ ! -f $METADATA_CACHE ]
-	then
-            CODE=0
-            while [ $CODE -ne 200 ]
-            do
-		RESPONSE=$(curl --silent --write-out "\n%{http_code}\n" http://169.254.42.42/conf)
-		CODE=$(echo "$RESPONSE" | sed -n '$p')
-		BODY=$(echo "$RESPONSE" | sed '$d')
-
-		test $CODE -eq 200 && break
-		sleep 5
-            done
-
-            echo "$BODY" > $METADATA_CACHE
-	fi
+        if [ ! -f $METADATA_CACHE ]; then
+            /usr/local/bin/oc-metadata > $METADATA_CACHE
+        fi
     }
 
     get_value() {
-      	# Get value from metadata
-	key="$1"
-	sed -n "s/${key}=\(.*\)/\1/p" "$METADATA_CACHE"
+        # Get value from metadata
+        key="$1"
+        grep "^$key=" "$METADATA_CACHE" | cut -d= -f2 | sed "s/^['\"]//;s/['\"]$//"
     }
 
     get_nbd_client_conf() {
-	keys=$(get_value VOLUMES)
+        keys=$(get_value VOLUMES)
 
-	cat <<EOF
+        cat <<EOF
 # If you don't want to reconfigure this package after installing, uncomment
 # the following line:
 #AUTO_GEN="n"
@@ -53,40 +41,40 @@ KILLALL="false"
 # regardless of the setting of AUTO_GEN, so its use is only recommended
 # if you set things in a dynamical way (e.g., through a database)
 EOF
-	conf_id=0
-	for key in $keys; do
-    	  # Do not include the rootfs in nbd configuration file. It has been mounted
-	  # from the initramfs, we won't want it to be disconnected when
-	  # /etc/rc6.d/K34nbd-client is executed.
-	  test $key -eq 0 && continue
+        conf_id=0
+        for key in $keys; do
+              # Do not include the rootfs in nbd configuration file. It has been mounted
+          # from the initramfs, we won't want it to be disconnected when
+          # /etc/rc6.d/K34nbd-client is executed.
+          test $key -eq 0 && continue
 
 
-	  # NBD_TYPE[x]=r => raw (no other setup than to run the client)
-	  cat <<EOF
+          # NBD_TYPE[x]=r => raw (no other setup than to run the client)
+          cat <<EOF
 #
 NBD_TYPE[$conf_id]=r
 NBD_DEVICE[$conf_id]=/dev/nbd$key
 NBD_HOST[$conf_id]=$(get_value VOLUMES_${key}_EXPORT_URI | sed 's|nbd://\(.*\):.*|\1|')
 NBD_PORT[$conf_id]=$(get_value VOLUMES_${key}_EXPORT_URI | sed 's|nbd://.*:\(.*\)|\1|')
 EOF
-	    conf_id=$((conf_id + 1))
+            conf_id=$((conf_id + 1))
 
-	done
+        done
     }
 
     nbd_clients_connection() {
-	/etc/init.d/nbd-client start
+        /etc/init.d/nbd-client start
 
-	keys=$(get_value VOLUMES)
-	for key in $keys; do
-	    test $key -eq 0 && continue
-	    NBD_DEVICE=/dev/nbd$key
-	    until nbd-client -c $NBD_DEVICE
-	    do
-		/etc/init.d/nbd-client start
-		sleep 5
-	    done
-	done
+        keys=$(get_value VOLUMES)
+        for key in $keys; do
+            test $key -eq 0 && continue
+            NBD_DEVICE=/dev/nbd$key
+            until nbd-client -c $NBD_DEVICE
+            do
+                /etc/init.d/nbd-client start
+                sleep 5
+            done
+        done
     }
 
     get_metadata
@@ -99,17 +87,17 @@ export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
 
 case "$1" in
   start)
-	nbdaddextravolumes_start
-	;;
+        nbdaddextravolumes_start
+        ;;
   reload|force-reload)
-	nbdaddextravolumes_start
-	;;
+        nbdaddextravolumes_start
+        ;;
   restart)
-	nbdaddextravolumes_start
-	;;
+        nbdaddextravolumes_start
+        ;;
   *)
-	log_action_msg "Usage: /etc/init.d/ssh-keys {start|restart}" || true
-	exit 1
+        log_action_msg "Usage: /etc/init.d/ssh-keys {start|restart}" || true
+        exit 1
 esac
 
 exit 0
