@@ -2,8 +2,8 @@
 
 ### BEGIN INIT INFO
 # Provides:             nbd-disconnect-root
-# Required-Start:       $remote_fs
-# Required-Stop:        $remote_fs
+# Required-Start:
+# Required-Stop:
 # Default-Start:
 # Default-Stop:         0 6
 # Short-Description:    NBD disconnect root
