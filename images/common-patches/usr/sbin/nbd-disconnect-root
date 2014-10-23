@@ -4,7 +4,7 @@
 # errors occur, and if it isn't, then # the nbd-server process on the server
 # doesn't terminate.
 # Called by init scripts on reboot or shutdown.
- 
+
 case "$RUNLEVEL" in
     0)
         key="o"
@@ -12,29 +12,29 @@ case "$RUNLEVEL" in
         ;;
     6)
         key="b"
-        command="reboot"
+        command="reboot -d -f -i"
         ;;
     *)
         echo "nbd-disconnect should only be called by initscripts on reboot/shutdown." >&2
         exit 1
         ;;
 esac
- 
+
 disconnect() {
     # Stop trapping
     trap - 0 HUP INT QUIT KILL SEGV PIPE TERM
- 
+
     # ltsp-client-core.upstart needs "console output" to show stderr
     echo "nbd-disconnect executing: " >&2
     # Cache the command in order to use it after nbd-client disconnects
     $command --version >/dev/null 2>&1
     nbd-client -d "$root"
-    $command 
-    
+    $command
+
     # Hopefully this should never be reached
     echo "$key" > /proc/sysrq-trigger
 }
- 
+
 # Disconnect swap nbd devices first
 while read device etc; do
     case "$device" in
@@ -54,7 +54,7 @@ while read device etc; do
             ;;
     esac
 done < /proc/swaps
- 
+
 # If we're not using an nbd root, exit
 unset root
 for param in $(cat /proc/cmdline); do
@@ -65,7 +65,7 @@ for param in $(cat /proc/cmdline); do
     esac
 done
 test -n "$root" || exit 0
- 
+
 trap "disconnect" 0 HUP INT QUIT KILL SEGV PIPE TERM
 sync
 # Give up to 5 seconds for other services to be called.
