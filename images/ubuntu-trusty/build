@@ -27,6 +27,7 @@ build_image() {
 }
 
 ubuntu_trusty_patch_image() {
+    patch_target common-patches
     patch_target ubuntu-trusty/patches
 
     # locales

@@ -28,6 +28,7 @@ build_image() {
 }
 
 patch_image() {
+    patch_target common-patches
     patch_target debian-wheezy/patches
 
     # locales
