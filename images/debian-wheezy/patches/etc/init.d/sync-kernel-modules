@@ -28,7 +28,7 @@ case "$1" in
 	synckernelmodules_start
 	;;
   *)
-	log_action_msg "Usage: /etc/init.d/ssh-keys {start|restart}" || true
+	log_action_msg "Usage: /etc/init.d/sync-kernel-modules {start|restart}" || true
 	exit 1
 esac
 
