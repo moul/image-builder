@@ -11,7 +11,7 @@ CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /
 ARCH=${ARCH:-"armhf"}
 VARIANT=${VARIANT:-"minbase"}
 COMPONENTS=${COMPONENTS:-"main,universe"}
-PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,libnss-myhostname,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,vim,wget,whiptail,xnbd-client,lsb-release,locales"}
+PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,libnss-myhostname,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,vim,wget,whiptail,xnbd-client,lsb-release,locales,htop,socat,lsof,tmux,screen,tcpdump,netcat,ioping,fio"}
 
 MIRROR=${MIRROR:-"http://ftp.fr.debian.org/debian/"}
 VERSION=${VERSION:-"wheezy"}
