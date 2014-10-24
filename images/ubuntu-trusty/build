@@ -37,7 +37,7 @@ ubuntu_trusty_patch_image() {
     do_in_target dpkg-reconfigure locales
 
     # locate
-    do_in_target update-rc.d updatedb
+    do_in_target updatedb
 }
 patch_image() {
     ubuntu_trusty_patch_image
