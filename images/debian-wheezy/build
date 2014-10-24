@@ -11,7 +11,7 @@ CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /
 ARCH=${ARCH:-"armhf"}
 VARIANT=${VARIANT:-"minbase"}
 COMPONENTS=${COMPONENTS:-"main,universe"}
-PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,libnss-myhostname,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,vim,wget,whiptail,xnbd-client,lsb-release,locales,htop,socat,lsof,tmux,screen,tcpdump,netcat,ioping,fio"}
+PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,libnss-myhostname,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,vim,wget,whiptail,xnbd-client,lsb-release,locales,htop,socat,lsof,tmux,screen,tcpdump,netcat,ioping,fio,locate"}
 
 MIRROR=${MIRROR:-"http://ftp.fr.debian.org/debian/"}
 VERSION=${VERSION:-"wheezy"}
@@ -28,6 +28,7 @@ build_image() {
 }
 
 patch_image() {
+    # patches
     patch_target common-patches
     patch_target debian-wheezy/patches
 
@@ -39,6 +40,9 @@ patch_image() {
     do_in_target update-rc.d sync-kernel-modules defaults
     do_in_target update-rc.d nbd-root-disconnect defaults
     do_in_target update-rc.d nbd-add-extra-volumes defaults
+
+    # locate
+    do_in_target update-rc.d updatedb
 }
 
 upgrade_image() {
