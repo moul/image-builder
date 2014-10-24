@@ -40,6 +40,7 @@ patch_image() {
     do_in_target update-rc.d sync-kernel-modules defaults
     do_in_target update-rc.d nbd-root-disconnect defaults
     do_in_target update-rc.d nbd-add-extra-volumes defaults
+    do_in_target update-rc.d oc-force-dhclient defaults
 
     # locate
     do_in_target update-rc.d updatedb
