@@ -4,7 +4,7 @@
 
 DISTRIB=pydio
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
-PKGS_INCLUDE="$PKGS_INCLUDE,libapache2-mod-php5,php5-cgi,php5,apache2"
+PKGS_INCLUDE="$PKGS_INCLUDE,libapache2-mod-php5,php5-cgi,php5,apache2,php5-gd,php5-mcrypt"
 
 pydio_patch_image() {
     ubuntu_utopic_patch_image
