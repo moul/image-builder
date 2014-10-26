@@ -12,8 +12,9 @@ pydio_patch_image() {
     # patch_target app-pydio/patches
 
     # Install Pydio
-    do_in_target wget -qO /tmp http://dl.ajaxplorer.info/repos/apt/pool/main/p/pydio/pydio_5.3.3_all.deb
-    do_in_target dpkg -i /tmp/pydio*.deb
+    do_in_target wget -qO /tmp/pydio.deb http://dl.ajaxplorer.info/repos/apt/pool/main/p/pydio/pydio_5.3.3_all.deb
+    do_in_target dpkg -i /tmp/pydio.deb
+    do_in_target rm -f /tmp/pydio.deb
 
     # Configures apache/php
     do_in_target /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf
