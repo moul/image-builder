@@ -10,13 +10,24 @@ pydio_patch_image() {
     ubuntu_utopic_patch_image
     
     # patch_target app-pydio/patches
+
+    # Install Pydio
+    do_in_target wget -qO /tmp http://dl.ajaxplorer.info/repos/apt/pool/main/p/pydio/pydio_5.3.3_all.deb
+    do_in_target dpkg -i /tmp/pydio*.deb
+
+    # Configures apache/php
+    do_in_target /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf
+    do_in_target ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
+
+    # Install mysql
+    # FIXME: generates random password at startup
+    #        do_in_target pwgen 42 > ~/.mysql_root_pwd
+    echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
+    echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
+    do_in_target apt-get install -qy mysql-server
 }
 patch_image() {
     pydio_patch_image
-    do_in_target wget -qO /tmp http://dl.ajaxplorer.info/repos/apt/pool/main/p/pydio/pydio_5.3.3_all.deb
-    do_in_target dpkg -i /tmp/pydio*.deb
-    do_in_target /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf
-    do_in_target ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
 }
 
 if [ "${1}" != "--source-only" ]; then
