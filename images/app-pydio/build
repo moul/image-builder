@@ -22,8 +22,8 @@ pydio_patch_image() {
     # Install mysql
     # FIXME: generates random password at startup
     #        do_in_target pwgen 42 > ~/.mysql_root_pwd
-    echo "mysql-server mysql-server/root_password password root" | debconf-set-selections
-    echo "mysql-server mysql-server/root_password_again password root" | debconf-set-selections
+    echo "mysql-server mysql-server/root_password password root" | do_in_target debconf-set-selections
+    echo "mysql-server mysql-server/root_password_again password root" | do_in_target debconf-set-selections
     do_in_target apt-get install -qy mysql-server
 }
 patch_image() {
