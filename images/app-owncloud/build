@@ -1,0 +1,30 @@
+#!/bin/bash
+
+. ../ubuntu-utopic/build --source-only
+
+DISTRIB=owncloud
+NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
+PKGS_INCLUDE="$PKGS_INCLUDE,owncloud"
+
+owncloud_patch_image() {
+    ubuntu_utopic_patch_image
+    
+    # patch_target app-owncloud/patches
+
+    # Configures apache/php
+    # TODO
+
+    # Install mysql
+    # FIXME: generates random password at startup
+    #        do_in_target pwgen 42 > ~/.mysql_root_pwd
+    echo "mysql-server mysql-server/root_password password root" | do_in_target debconf-set-selections
+    echo "mysql-server mysql-server/root_password_again password root" | do_in_target debconf-set-selections
+    do_in_target apt-get install -qy mysql-server
+}
+patch_image() {
+    owncloud_patch_image
+}
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
