@@ -3,7 +3,7 @@
 . ../rescue/build --source-only
 
 PKGS_INCLUDE="$PKGS_INCLUDE,debootstrap,xz-utils"
-NAME=${NAME:-"rootfs-$ARCH-builder"}
+NAME="rootfs-$ARCH-builder"
 S3_URL=s3://rescue-images/rescue/
 
 if [ "${1}" != "--source-only" ]; then
