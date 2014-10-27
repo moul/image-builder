@@ -4,6 +4,7 @@
 
 PKGS_INCLUDE="$PKGS_INCLUDE,iotop,iperf,ethstatus,traceroute,tcpdump,busybox,htop,socat,lsof,parted,lvm2,partimage,memtester,rsync"
 NAME="rootfs-$ARCH-rescue"
+S3_URL=s3://rescue-images/rescue/
 
 rescue_patch_image() {
     # Inherits parent patch_image

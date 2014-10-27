@@ -75,6 +75,14 @@ do_in_target() {
     sudo chroot "$TARGET" $@
 }
 
+push_to_s3() {
+    edit_date=$(stat -c %Y "$TARGET")
+    s3cmd put --acl-public "$NAME.tar.gz" "$S3_URL/$NAME-${edit_date}.tar.gz"
+    s3cmd put --acl-public "$NAME.tar.gz" "$S#_URL/$NAME-latest.tar.gz"
+    s3cmd ls "s3://rescue-images/rescue/"
+    # s3cmd cp --acl-public "s3://rescue-images/rescue/$NAME-${edit_date}.tar.gz" "s3://rescue-images/rescue/$NAME-latest.tar.gz"
+}
+
 cli() {
     case $1 in
 	"tarball")
@@ -83,6 +91,7 @@ cli() {
 	    upgrade_image
 	    clean_image
 	    archive_target
+	    push_to_s3
 	    exit 0
 	    ;;
 	"image")
@@ -95,7 +104,7 @@ cli() {
 	    sync
 	    exit 0
 	    ;;
-	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume"|"upgrade_image"|"clean_image")
+	"build_image"|"patch_image"|"archive_target"|"prepare_nbd_volume"|"upgrade_image"|"clean_image"|"push_to_s3")
 	    eval $@
 	    exit 0
 	    ;;
