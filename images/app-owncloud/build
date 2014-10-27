@@ -1,13 +1,15 @@
 #!/bin/bash
 
-. ../ubuntu-utopic/build --source-only
+. ../ubuntu-trusty/build --source-only
 
 DISTRIB=owncloud
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 PKGS_INCLUDE="$PKGS_INCLUDE,owncloud"
 
 owncloud_patch_image() {
-    ubuntu_utopic_patch_image
+    ubuntu_trusty_patch_image
+
+    do_in_target apt-get update
     
     # patch_target app-owncloud/patches
 
