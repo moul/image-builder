@@ -65,6 +65,7 @@ clean_target() {
     for file in $(find "$TARGET/var/log" -type f); do
 	echo | sudo tee $file
     done
+    find "$TARGET" \( -name "*~" -or -name ".??*~" -or -name "#*#" -or -name ".#*" \) -delete
 }
 
 archive_target() {
