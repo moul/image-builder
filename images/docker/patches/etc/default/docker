@@ -15,4 +15,5 @@
 #export TMPDIR="/mnt/bigdrive/docker-tmp"
 
 # small hack: ensure loop module is loaded
-insmod /lib/modules/$(uname -r)/kernel/drivers/block/loop.ko
+lsmod | grep "^loop " >/dev/null || \
+    insmod /lib/modules/$(uname -r)/kernel/drivers/block/loop.ko
