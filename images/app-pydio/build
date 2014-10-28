@@ -22,6 +22,11 @@ pydio_patch_image() {
     do_in_target a2enmod rewrite
     do_in_target ln -sf /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf
     do_in_target ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
+
+    # Pydio dependencies
+    do_in_target "cd /usr/share/pydio && curl -sS https://getcomposer.org/installer | php"
+    do_in_target "cd /usr/share/pydio && php composer.phar install"
+    do_in_target wget -qO /usr/share/pydio/aws.phar https://github.com/aws/aws-sdk-php/releases/download/2.7.2/aws.phar
 }
 patch_image() {
     pydio_patch_image
