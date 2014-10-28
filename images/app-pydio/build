@@ -22,14 +22,6 @@ pydio_patch_image() {
     do_in_target a2enmod rewrite
     do_in_target ln -sf /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf
     do_in_target ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
-
-    # Install mysql
-    # FIXME: generates random password at startup
-    #        do_in_target pwgen 42 > ~/.mysql_root_pwd
-    echo "mysql-server mysql-server/root_password password root" | do_in_target debconf-set-selections
-    echo "mysql-server mysql-server/root_password_again password root" | do_in_target debconf-set-selections
-    do_in_target apt-get update
-    do_in_target apt-get install -qy mysql-server
 }
 patch_image() {
     pydio_patch_image
