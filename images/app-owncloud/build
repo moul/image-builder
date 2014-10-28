@@ -7,10 +7,13 @@ NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
 PKGS_INCLUDE="$PKGS_INCLUDE,owncloud"
 
 owncloud_patch_image() {
+    # Finish install of owncloud
+    do_in_target apt-get update
+    do_in_target apt-get -f install
+
+    # Inherits parent image
     ubuntu_trusty_patch_image
 
-    do_in_target apt-get update
-    
     # patch_target app-owncloud/patches
 
     # Configures apache/php
@@ -19,6 +22,7 @@ owncloud_patch_image() {
     # Install mysql
     # FIXME: generates random password at startup
     #        do_in_target pwgen 42 > ~/.mysql_root_pwd
+    do_in_target apt-get update
     echo "mysql-server mysql-server/root_password password root" | do_in_target debconf-set-selections
     echo "mysql-server mysql-server/root_password_again password root" | do_in_target debconf-set-selections
     do_in_target apt-get install -qy mysql-server
