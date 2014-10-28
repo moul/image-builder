@@ -25,16 +25,18 @@ clean_workspace() {
 }
 
 debootstrap() {
-    sudo debootstrap \
-	--arch="$ARCH" \
-	--variant="$VARIANT" \
-	--components="$COMPONENTS" \
-	--include="$PKGS_INCLUDE" \
-	--foreign \
-	"$VERSION" \
-	"$TARGET" \
-	"$MIRROR" \
-	"$SCRIPT"
+    if [ ! -d "$TARGET.debootstrap" ]; then
+	sudo debootstrap \
+	    --arch="$ARCH" \
+	    --variant="$VARIANT" \
+	    --components="$COMPONENTS" \
+	    --include="$PKGS_INCLUDE" \
+	    "$VERSION" \
+	    "$TARGET.debootstrap" \
+	    "$MIRROR" \
+	    "$SCRIPT"
+    fi
+    rsync -aHAX "$TARGET.debootstrap/" "$TARGET/" 
 }
 
 upgrade_debs() {
@@ -44,7 +46,8 @@ upgrade_debs() {
 
 secondstage() {
     # This step could be done directly by removing 
-    sudo chroot "$TARGET" /debootstrap/debootstrap --second-stage
+    # do_in_target /debootstrap/debootstrap --second-stage
+    echo "Not needed anymore (removed the --foreign option)"
 }
 
 patch_target() {
