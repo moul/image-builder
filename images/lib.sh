@@ -76,7 +76,7 @@ archive_target() {
 }
 
 do_in_target() {
-    sudo chroot "$TARGET" $@
+    sudo chroot "$TARGET" su - root -c "$@"
 }
 
 push_to_s3() {

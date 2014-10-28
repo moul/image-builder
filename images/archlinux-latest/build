@@ -27,7 +27,7 @@ patch_image() {
     sudo mount -t sysfs sys $TARGET/sys
     sudo mount -o bind /dev $TARGET/dev
     sudo rm -f $TARGET/etc/mtab
-    do_in_target grep -v rootfs /proc/mounts | sudo tee -a $TARGET/etc/mtab
+    do_in_target "grep -v rootfs /proc/mounts | sudo tee -a $TARGET/etc/mtab"
     sudo mkdir -p $TARGET/run/systemd/resolve
     sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
 
@@ -35,11 +35,11 @@ patch_image() {
     # FIXME: patch_target archlinux-latest/patches
 
     # FIXME: locales
-    # - do_in_target locale-gen en_US.UTF-8
+    # - do_in_target "locale-gen en_US.UTF-8"
 
     # ssh server
-    do_in_target pacman -S --noconfirm openssh
-    do_in_target systemctl enable sshd.service
+    do_in_target "pacman -S --noconfirm openssh"
+    do_in_target "systemctl enable sshd.service"
 
     # clean chroot
     sudo rm -f $TARGET/etc/mtab $TARGET/run/systemd/resolve/resolv.conf

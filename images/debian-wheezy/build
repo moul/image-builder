@@ -32,17 +32,17 @@ patch_image() {
     patch_target debian-wheezy/patches
 
     # locales
-    do_in_target locale-gen
+    do_in_target "locale-gen"
 
     # sysv
-    do_in_target update-rc.d ssh-keys defaults
-    do_in_target update-rc.d sync-kernel-modules defaults
-    do_in_target update-rc.d nbd-root-disconnect defaults
-    do_in_target update-rc.d nbd-add-extra-volumes defaults
-    do_in_target update-rc.d oc-force-dhclient defaults
+    do_in_target "update-rc.d ssh-keys defaults"
+    do_in_target "update-rc.d sync-kernel-modules defaults"
+    do_in_target "update-rc.d nbd-root-disconnect defaults"
+    do_in_target "update-rc.d nbd-add-extra-volumes defaults"
+    do_in_target "update-rc.d oc-force-dhclient defaults"
 
     # locate
-    do_in_target update-rc.d updatedb
+    do_in_target "update-rc.d updatedb"
 }
 
 upgrade_image() {
@@ -50,9 +50,9 @@ upgrade_image() {
 }
 
 clean_image() {
-    do_in_target apt-get clean
+    do_in_target "apt-get clean"
     clean_target $CLEAN_PATHS
-    do_in_target apt-get update
+    do_in_target "apt-get update"
 }
 
 if [ "${1}" != "--source-only" ]; then

@@ -32,12 +32,12 @@ ubuntu_trusty_patch_image() {
     patch_target ubuntu-trusty/patches
 
     # locales
-    do_in_target locale-gen en_US.UTF-8
-    do_in_target locale-gen fr_FR.UTF-8
-    do_in_target dpkg-reconfigure locales
+    do_in_target "locale-gen en_US.UTF-8"
+    do_in_target "locale-gen fr_FR.UTF-8"
+    do_in_target "dpkg-reconfigure locales"
 
     # locate
-    do_in_target updatedb
+    do_in_target "updatedb"
 }
 patch_image() {
     ubuntu_trusty_patch_image
@@ -49,9 +49,9 @@ upgrade_image() {
 }
 
 clean_image() {
-    do_in_target apt-get clean
+    do_in_target "apt-get clean"
     clean_target $CLEAN_PATHS
-    do_in_target apt-get update
+    do_in_target "apt-get update"
 }
 
 
