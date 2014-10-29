@@ -11,8 +11,7 @@ password = $password
 EOF
 
     # Reset mysql root password
-    cat <<EOF
-EOF > /tmp/recover_root_mysql.ini
+    cat <<EOF > /tmp/recover_root_mysql.ini
 UPDATE mysql.user SET password=PASSWORD("$password") where User='$username';
 FLUSH PRIVILEGES;
 EOF
