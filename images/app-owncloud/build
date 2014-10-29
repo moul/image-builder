@@ -4,7 +4,7 @@
 
 DISTRIB=owncloud
 NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
-PKGS_INCLUDE="$PKGS_INCLUDE,mysql-server,owncloud"
+PKGS_INCLUDE="$PKGS_INCLUDE,mysql-server,owncloud,pwgen"
 
 owncloud_patch_image() {
     # Finish install of owncloud
