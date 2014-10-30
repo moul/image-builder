@@ -26,7 +26,9 @@ EOF
     echo "CREATE DATABASE $dbname" | mysql -u $username -p$password
 
     rm -f /tmp/recover_root_mysql.ini
-    killall -w mysqld
+    killall mysqld
+    sleep 5
+    killall -9 mysqld
 
     service mysql start
 fi
