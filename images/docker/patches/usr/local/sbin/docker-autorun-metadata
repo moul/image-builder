@@ -1,0 +1,7 @@
+#!/bin/bash
+
+images=$(oc-metadata | sed '/TAGS_.*=docker-autorun=/!d;s/^TAGS_.*=docker-autorun=//g')
+
+for image in $images; do
+    docker-autorun "$image"
+done
