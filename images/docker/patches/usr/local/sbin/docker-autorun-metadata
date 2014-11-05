@@ -3,5 +3,14 @@
 images=$(oc-metadata | sed '/TAGS_.*=docker-autorun=/!d;s/^TAGS_.*=docker-autorun=//g')
 
 for image in $images; do
-    docker-autorun "$image"
+    ARGS=""
+    OPTS=""
+
+    # Expose all ports
+    ports=$(docker inspect -f '{{range $p, $conf := .Config.ExposedPorts}} {{$p}} {{end}}' "$image" | sed 's/[^0-9\ ]//g')
+    for port in $ports; do
+        OPTS="$OPTS -p $port:$port"
+    done
+
+    /usr/local/bin/docker-autorun "$image" "$ARGS" "$OPTS"
 done
