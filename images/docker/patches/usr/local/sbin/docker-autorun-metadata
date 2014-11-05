@@ -6,6 +6,8 @@ for image in $images; do
     ARGS=""
     OPTS=""
 
+    docker pull "$image"
+
     # Expose all ports
     ports=$(docker inspect -f '{{range $p, $conf := .Config.ExposedPorts}} {{$p}} {{end}}' "$image" | sed 's/[^0-9\ ]//g')
     for port in $ports; do
