@@ -6,17 +6,19 @@
 DISTRIB="archlinux"
 ARCH=${ARCH:-"armhf"}
 TARGET=${TARGET:-"rootfs-target"}
-CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/hostname /etc/ssh/*_key* /var/log/bootstrap.log"
-PKGS_INCLUDE=${PKGS_INCLUDE:-"ca-certificates,cron,curl,iptables,iputils-ping,isc-dhcp-client,less,man-db,nano,nbd-client,net-tools,ntp,ntpdate,rsyslog,ssh,sudo,wget,whiptail,xnbd-client"}
+CLEAN_PATHS="/root/.bash_history /root/.history /etc/resolv.conf /etc/ssh/*_key*"
+PKGS_INCLUDE=${PKGS_INCLUDE:-"cronie,curl,iptables,dhcpcd,less,man,nano,nbd,ntp,openssh,wget,vim"}
 # MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
 VERSION=${VERSION:-"latest"}
-
+LOCALES="en_US.UTF-8,fr_FR.UTF-8"
 
 # Required
 NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
 build_image() {
+    # TODO Mirror
     sudo wget -O source.tar.gz \
         http://os.archlinuxarm.org/os/ArchLinuxARM-armv7-$VERSION.tar.gz
+    sudo mkdir -p "$TARGET"
     sudo tar -C "$TARGET" -xzf source.tar.gz
 }
 
@@ -26,31 +28,44 @@ patch_image() {
     sudo mount -t proc proc $TARGET/proc
     sudo mount -t sysfs sys $TARGET/sys
     sudo mount -o bind /dev $TARGET/dev
-    sudo rm -f $TARGET/etc/mtab
-    do_in_target "grep -v rootfs /proc/mounts | sudo tee -a $TARGET/etc/mtab"
+    do_in_target 'sed s/root:[^:]\+:/root:x:/ -i /etc/shadow'
     sudo mkdir -p $TARGET/run/systemd/resolve
     sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
 
+    patch_target common-patches
+    patch_target archlinux-latest/patches
 
-    # FIXME: patch_target archlinux-latest/patches
+    # TODO Get ssh keys from config
+    sudo mkdir -p $TARGET/root/.ssh
+    sudo cp -va /root/.ssh/authorized_keys $TARGET/root/.ssh
 
-    # FIXME: locales
-    # - do_in_target "locale-gen en_US.UTF-8"
+    echo $LOCALES | sed 's/,/\n/' | while read loc; do
+      do_in_target "sed -e s/^\#${loc}/${loc}/ -i /etc/locale.gen"
+    done
+    do_in_target locale-gen
 
-    # ssh server
-    do_in_target "pacman -S --noconfirm openssh"
+    pkgs_pacman=`echo $PKGS_INCLUDE | tr ',' ' '`
+    do_in_target "pacman -Sy --noconfirm $pkgs_pacman"
     do_in_target "systemctl enable sshd.service"
 
     # clean chroot
-    sudo rm -f $TARGET/etc/mtab $TARGET/run/systemd/resolve/resolv.conf
-    sudo umount $TARGET/proc
-    sudo umount $TARGET/sys
-    sudo umount $TARGET/dev
+    sudo rm -f $TARGET/run/systemd/resolve/resolv.conf
+    sudo umount $TARGET/{sys,dev,proc} || true
 }
 
 upgrade_image() {
-    # FIXME: upgrade security packages
-    echo
+    sudo umount $TARGET/{sys,dev,proc} || true
+    sudo mount -t proc proc $TARGET/proc
+    sudo mount -t sysfs sys $TARGET/sys
+    sudo mount -o bind /dev $TARGET/dev
+
+    sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
+
+    do_in_target pacman --noconfirm -Suy
+
+    sudo rm -f  $TARGET/run/systemd/resolve/resolv.conf
+
+    sudo umount $TARGET/{sys,dev,proc} || true
 }
 
 clean_image() {
