@@ -82,7 +82,7 @@ do_in_target() {
 push_to_s3() {
     edit_date=$(stat -c %Y "$TARGET")
     s3cmd put --acl-public "$NAME.tar.gz" "$S3_URL/$NAME-${edit_date}.tar.gz"
-    s3cmd put --acl-public "$NAME.tar.gz" "$S#_URL/$NAME-latest.tar.gz"
+    s3cmd put --acl-public "$NAME.tar.gz" "$S3_URL/$NAME-latest.tar.gz"
     s3cmd ls "s3://rescue-images/rescue/"
     # s3cmd cp --acl-public "s3://rescue-images/rescue/$NAME-${edit_date}.tar.gz" "s3://rescue-images/rescue/$NAME-latest.tar.gz"
 }
