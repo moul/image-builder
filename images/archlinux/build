@@ -14,7 +14,7 @@ LOCALES="en_US.UTF-8,fr_FR.UTF-8"
 S3_URL=s3://test-images/archlinux/
 
 # Required
-NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
+NAME=${NAME:-"rootfs-$ARCH-$DISTRIB"}
 build_image() {
     # TODO Mirror
     sudo wget -O source.tar.gz \
