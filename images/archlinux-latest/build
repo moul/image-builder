@@ -61,7 +61,7 @@ upgrade_image() {
 
     sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
 
-    do_in_target pacman --noconfirm -Suy
+    do_in_target "pacman --noconfirm -Suy"
 
     sudo rm -f  $TARGET/run/systemd/resolve/resolv.conf
 
