@@ -11,6 +11,7 @@ PKGS_INCLUDE=${PKGS_INCLUDE:-"cronie,curl,iptables,dhcpcd,less,man,nano,nbd,ntp,
 # MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
 VERSION=${VERSION:-"latest"}
 LOCALES="en_US.UTF-8,fr_FR.UTF-8"
+S3_URL=s3://test-images/archlinux/
 
 # Required
 NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
