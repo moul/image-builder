@@ -12,6 +12,6 @@
 # By default this script does nothing.
 
 # Starting docker containers defined in metadata tags
-(sleep 30; /usr/local/sbin/docker-autorun-metadata) &
+(sleep 3; /usr/local/sbin/docker-autorun-metadata) &
 
 exit 0
