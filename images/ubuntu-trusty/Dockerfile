@@ -1,14 +1,14 @@
-FROM armbuild/ubuntu-debootstrap:trusty
+FROM ubuntu-debootstrap:trusty
 
 # Prevent init scripts from running during install/update
 # policy-rc.d (for most scripts)
-RUN echo $'#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
+RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && \
     chmod +x /usr/sbin/policy-rc.d
 
 # Install packages
 ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
-RUN apt-get -q update &&
-    apt-get -q upgrade &&
+RUN apt-get -q update && \
+    apt-get -q upgrade && \
     apt-get install -y -q \
 	cron \
 	curl \
@@ -54,8 +54,8 @@ RUN curl https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrad
 ADD ./patches/ /
 
 # Configure locales
-RUN locale-gen en_US.UTF-8 &&
-    locale-gen fr_FR.UTF-8 &&
+RUN locale-gen en_US.UTF-8 && \
+    locale-gen fr_FR.UTF-8 && \
     dpkg-reconfigure locales
 
 # Clean
@@ -64,8 +64,7 @@ RUN locale-gen en_US.UTF-8 &&
 # - remove /etc/hostname and resolv.conf that contains build information and will be regenerated using from dhcp
 # - Remove hacks
 #   - Prevent init scripts from running during install/update
-RUN
-    rm -f \
+RUN rm -f \
 	/etc/hostname \
 	/etc/resolv.conf \
 	/etc/ssh/*_key* \
@@ -76,10 +75,10 @@ RUN
         /root/.bash_history \
         /usr/sbin/policy-rc.d \
         /var/cache/apt/archives/*.deb \
-    apt-get clean
+    && apt-get clean
 
-# Update locate cache
-RUN updatedb
-
-# Update aptitude cache
-RUN apt-get update
+# Update caches
+- locate
+- aptitude
+RUN updatedb &&
+    apt-get update
