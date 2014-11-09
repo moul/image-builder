@@ -59,7 +59,7 @@ patch_target() {
 }
 
 clean_target() {
-    clean_paths=$1
+    clean_paths="$@"
     for path in $clean_paths; do
 	if [ -e "$TARGET/$path" ]; then
 	    sudo rm -rf "$TARGET/$path"
