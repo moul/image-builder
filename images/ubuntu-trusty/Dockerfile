@@ -77,6 +77,9 @@ RUN rm -f \
         /var/cache/apt/archives/*.deb \
     && apt-get clean
 
+# Update locate cache
+RUN updatedb
+
 # Update caches
 - locate
 - aptitude

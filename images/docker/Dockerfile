@@ -36,8 +36,8 @@ RUN
 	/var/log/bootstrap.log \
         /root/.bash_history \
         /usr/sbin/policy-rc.d \
-        /var/cache/apt/archives/*.deb; \
-    apt-get clean
+        /var/cache/apt/archives/*.deb \
+    && apt-get clean
 
 # Update locate cache
 RUN updatedb
