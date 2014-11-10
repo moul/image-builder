@@ -11,6 +11,11 @@ rootfs.tar: Dockerfile
 	docker export $(shell docker ps -lq) | docker import - $(NAME)-flatten:$(VERSION)
 	docker save $(NAME)-flatten:$(VERSION) | tar -O xf - '*/layer.tar' > $@
 
+release:
+	docker tag $(NAME):$(VERSION) $(NAME):latest
+	docker tag $(NAME):$(VERSION) $(NAME):$(shell date +%Y-%m-%d)
+	docker push $(NAME):$(VERSION)
+
 /mnt/$(DISK):
 	umount $(DISK) || true
 	mkfs.ext4 $(DISK)
