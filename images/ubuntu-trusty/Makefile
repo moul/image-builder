@@ -52,6 +52,7 @@ rootfs-flatten.tar: | .docker-container.built
 
 rootfs.tar: | .docker-container-flatten.built
 	docker save flatten | tar --wildcards -Oxvf - '*/layer.tar' > $@
+	tar --delete -f rootfs.tar .dockerenv .dockerinit
 
 
 /mnt/$(DISK):
