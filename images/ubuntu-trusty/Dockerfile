@@ -1,4 +1,4 @@
-FROM ubuntu-debootstrap:trusty
+FROM armbuild/ubuntu-debootstrap:trusty
 
 # Prevent init scripts from running during install/update
 # policy-rc.d (for most scripts)
@@ -65,11 +65,9 @@ RUN locale-gen en_US.UTF-8 && \
 # - Remove hacks
 #   - Prevent init scripts from running during install/update
 RUN rm -f \
-	/etc/hostname \
-	/etc/resolv.conf \
 	/etc/ssh/*_key* \
 	/root/.history \
-	/var/cache/apt/*.bin
+	/var/cache/apt/*.bin \
 	/var/cache/apt/archives/partial/*.deb \
 	/var/log/bootstrap.log \
         /root/.bash_history \
@@ -77,11 +75,8 @@ RUN rm -f \
         /var/cache/apt/archives/*.deb \
     && apt-get clean
 
-# Update locate cache
-RUN updatedb
-
 # Update caches
-- locate
-- aptitude
-RUN updatedb &&
-    apt-get update
+# - locate
+# - aptitude
+RUN apt-get update && \
+    updatedb
