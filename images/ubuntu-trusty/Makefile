@@ -35,12 +35,12 @@ shell:  .docker-container.built
 	docker run --rm -it $(NAME):$(VERSION) /bin/bash
 
 
-.docker-container.built: | Dockerfile
+.docker-container.built: Dockerfile
 	docker build -t $(NAME):$(VERSION) .		
 	docker inspect -f '{{.Id}}' $(NAME):$(VERSION) > .docker-container.built
 
 
-rootfs-flatten.tar: | .docker-container.built
+rootfs-flatten.tar: .docker-container.built
 	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
 	docker export $(shell docker ps -lq) > rootfs-flatten.tar
 
