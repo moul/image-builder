@@ -75,6 +75,11 @@ RUN rm -f \
         /var/cache/apt/archives/*.deb \
     && apt-get clean
 
+# Clean docker specific files
+RUN rm -f \
+       /etc/apt/apt.conf.d/docker-* \
+       /etc/mtab
+
 # Update caches
 # - locate
 # - aptitude
