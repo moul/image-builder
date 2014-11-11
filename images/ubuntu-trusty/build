@@ -16,6 +16,8 @@ MIRROR=${MIRROR:-"http://mirror.cloud.online.net/ubuntu-ports/"}
 VERSION=${VERSION:-"trusty"}
 SCRIPT=""
 
+S3_URL=s3://test-images/ubuntu-trusty/
+
 
 # Required
 NAME=${NAME:-"rootfs-$ARCH-$DISTRIB-$VERSION"}
