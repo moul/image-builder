@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script will prepare the rootfs for the image-builder toolsuite
+
+set -e
+
+# prevent init scripts from running during install/update
+echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d
+chmod +x /usr/sbin/policy-rc.d
+echo '#!/bin/sh\nexit 0' > /sbin/initctl
+dpkg-divert --local --rename --add /sbin/initctl
