@@ -1,7 +1,7 @@
 NAME=armbuild/ocs-ubuntu
 VERSION=trusty
 DISK=/dev/nbd1
-S3_URL=s3://test-images/$(NAME)
+S3_URL=s3://test-images
 
 .PHONY: build release install_on_disk publish_on_s3 clean shell re all
 
