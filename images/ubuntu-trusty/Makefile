@@ -27,7 +27,7 @@ publish_on_s3: rootfs.tar
 
 
 clean:
-	docker rmi $(NAME):$(VERSION) $(NAME)-flatten:$(VERSION) || true
+	docker rmi $(NAME):$(VERSION) || true
 	rm -f rootfs.tar .??*.built || true
 
 
@@ -41,21 +41,9 @@ shell:  .docker-container.built
 	docker inspect -f '{{.Id}}' $(NAME):$(VERSION) > .docker-container.built
 
 
-rootfs-flatten.tar: .docker-container.built
+rootfs.tar: .docker-container.built
 	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
-	docker export $(shell docker ps -lq) > rootfs-flatten.tar.tmp
-	mv rootfs-flatten.tar.tmp rootfs-flatten.tar
-
-
-.docker-container-flatten.built: | rootfs-flatten.tar
-	cat rootfs-flatten.tar | docker import - flatten
-	docker inspect flatten > .docker-container-flatten.built
-
-
-rootfs.tar: | .docker-container-flatten.built
-	rm -rf rootfs.tar.tmp
-	docker save flatten | tar --wildcards -Oxvf - '*/layer.tar' > rootfs.tar.tmp
-	tar --delete -f rootfs.tar.tmp .dockerenv .dockerinit
+	docker export $(shell docker ps -lq) > rootfs.tar.tmp
 	mv rootfs.tar.tmp rootfs.tar
 
 
