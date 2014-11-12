@@ -43,7 +43,8 @@ shell:  .docker-container.built
 
 rootfs-flatten.tar: .docker-container.built
 	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
-	docker export $(shell docker ps -lq) > rootfs-flatten.tar
+	docker export $(shell docker ps -lq) > rootfs-flatten.tar.tmp
+	mv rootfs-flatten.tar.tmp rootfs-flatten.tar
 
 
 .docker-container-flatten.built: | rootfs-flatten.tar
