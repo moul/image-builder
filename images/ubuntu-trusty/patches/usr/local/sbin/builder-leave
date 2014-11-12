@@ -12,7 +12,7 @@ rm /usr/sbin/policy-rc.d /sbin/initctl
 
 # remove potentially existing docker aptitude tuning
 rm -f /etc/apt/apt.conf.d/docker-*
-rm -f /.dockerenv /.dockerinit
+#rm -f /.dockerenv /.dockerinit
 
 # remove ssh host keys so they are regenerated on first boot
 rm -f /etc/ssh/*_key*

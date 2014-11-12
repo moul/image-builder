@@ -58,4 +58,4 @@ RUN locale-gen en_US.UTF-8 && \
     dpkg-reconfigure locales
 
 # Clean rootfs from image-builder
-RUN /usr/local/sbin/buider-leave
+RUN /usr/local/sbin/builder-leave
