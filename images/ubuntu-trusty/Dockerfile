@@ -7,8 +7,8 @@ RUN /usr/local/sbin/builder-enter
 # Install packages
 ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
 RUN apt-get -q update && \
-    apt-get -q upgrade && \
-    apt-get install -y -q \
+    apt-get -y -qq upgrade && \
+    apt-get install -y -qq \
 	cron \
 	curl \
 	dstat \
