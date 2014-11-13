@@ -1,0 +1,42 @@
+#!/bin/bash
+
+. ../ubuntu-utopic/build --source-only
+
+DISTRIB=ghost
+NAME="rootfs-$ARCH-$DISTRIB-$VERSION"
+PKGS_INCLUDE="$PKGS_INCLUDE,nginx,zip,build-essential,supervisor"
+
+ghost_patch_image() {
+    # Inherits parent image
+    ubuntu_utopic_patch_image
+
+    # Install node from PPA
+    do_in_target "curl -sL https://deb.nodesource.com/setup | sudo bash -"
+    do_in_target "apt-get -yq install nodejs"
+
+    # Install ghost
+    do_in_target "wget -qO ghost.zip https://ghost.org/zip/ghost-0.5.3.zip"
+    do_in_target "rm -rf /var/www"
+    do_in_target "unzip ghost.zip -d /var/www/"
+    do_in_target "rm -f ghost.zip"
+    do_in_target "cd /var/www && npm install --production"
+
+    # Patches
+    patch_target app-ghost/patches
+
+    # Configures nginx
+    do_in_target "ln -sf /etc/nginx/sites-available/ghost /etc/nginx/sites-enabled/ghost"
+    do_in_target "rm -f /etc/nginx/sites-enabled/default"
+
+    # Configures supervisord
+    do_in_target "supervisorctl start ghost"
+
+}
+patch_image() {
+    ghost_patch_image
+}
+
+if [ "${1}" != "--source-only" ]; then
+    cli $@
+fi
+
