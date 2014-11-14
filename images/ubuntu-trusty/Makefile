@@ -23,7 +23,7 @@ install_on_disk: /mnt/$(DISK) rootfs.tar
 
 
 publish_on_s3: rootfs.tar
-	s3cmd put --acl-public $< $(S3_URL)/$(NAME)-$(VERSION).tar.gz
+	s3cmd put --acl-public $< $(S3_URL)/$(NAME)-$(VERSION).tar
 
 
 clean:
@@ -41,10 +41,23 @@ shell:  .docker-container.built
 	docker inspect -f '{{.Id}}' $(NAME):$(VERSION) > .docker-container.built
 
 
-rootfs.tar: .docker-container.built
-	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
-	docker export $(shell docker ps -lq) > rootfs.tar.tmp
+rootfs: export.tar
+	rm -rf rootfs
+	mkdir rootfs.tmp
+	tar -C rootfs.tmp -xf export.tar
+	rm -f rootfs.tmp/.dockerenv rootfs.tmp/.dockerinit
+	mv rootfs.tmp rootfs
+
+
+rootfs.tar: rootfs
+	tar --format=gnu -C rootfs -cf rootfs.tar.tmp .
 	mv rootfs.tar.tmp rootfs.tar
+
+
+export.tar: .docker-container.built
+	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
+	docker export $(shell docker ps -lq) > export.tar.tmp
+	mv export.tar.tmp export.tar
 
 
 /mnt/$(DISK):
