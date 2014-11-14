@@ -49,6 +49,10 @@ patch_image() {
     do_in_target "pacman -Sy --noconfirm $pkgs_pacman"
     do_in_target "systemctl enable sshd.service"
 
+    # tty settings
+    do_in_target "systemctl disable getty@tty1.service"
+    do_in_target "systemctl enable serial-getty@ttyS0.service"
+
     # clean chroot
     sudo rm -f $TARGET/run/systemd/resolve/resolv.conf
     sudo umount $TARGET/{sys,dev,proc} || true
