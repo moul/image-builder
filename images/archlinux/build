@@ -34,7 +34,7 @@ patch_image() {
     sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
 
     patch_target common-patches
-    patch_target archlinux-latest/patches
+    patch_target archlinux/patches
 
     # TODO Get ssh keys from config
     sudo mkdir -p $TARGET/root/.ssh
