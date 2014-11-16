@@ -18,7 +18,7 @@ release:
 	docker push $(NAME):$(VERSION)
 
 
-install_on_disk: /mnt/$(DISK) rootfs.tar
+install_on_disk: rootfs.tar /mnt/$(DISK)
 	tar xf rootfs.tar /mnt/$(DISK)
 
 
