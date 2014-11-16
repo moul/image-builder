@@ -37,12 +37,12 @@ shell:  .docker-container.built
 
 .docker-container.built: Dockerfile
 	find patches -name '*~' -delete
-	docker build -t $(NAME):$(VERSION) .		
+	docker build -t $(NAME):$(VERSION) .
 	docker inspect -f '{{.Id}}' $(NAME):$(VERSION) > .docker-container.built
 
 
 rootfs: export.tar
-	rm -rf rootfs
+	rm -rf rootfs.tmp
 	mkdir rootfs.tmp
 	tar -C rootfs.tmp -xf export.tar
 	rm -f rootfs.tmp/.dockerenv rootfs.tmp/.dockerinit
