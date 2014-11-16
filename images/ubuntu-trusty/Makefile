@@ -19,7 +19,7 @@ release:
 
 
 install_on_disk: rootfs.tar /mnt/$(DISK)
-	tar xf rootfs.tar /mnt/$(DISK)
+	tar -C /mnt/$(DISK) -xf rootfs.tar
 
 
 publish_on_s3: rootfs.tar
