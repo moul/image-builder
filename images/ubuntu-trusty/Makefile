@@ -22,8 +22,9 @@ install_on_disk: rootfs.tar /mnt/$(DISK)
 	tar -C /mnt/$(DISK) -xf rootfs.tar
 
 
-publish_on_s3: rootfs.tar
-	s3cmd put --acl-public $< $(S3_URL)/$(NAME)-$(VERSION).tar
+publish_on_s3: rootfs.tar rootfs.sqsh
+	s3cmd put --acl-public rootfs.tar $(S3_URL)/$(NAME)-$(VERSION).tar
+	s3cmd put --acl-public rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).tar
 
 
 clean:
@@ -52,6 +53,10 @@ rootfs: export.tar
 rootfs.tar: rootfs
 	tar --format=gnu -C rootfs -cf rootfs.tar.tmp .
 	mv rootfs.tar.tmp rootfs.tar
+
+
+rootfs.sqsh: rootfs
+	mksquashfs rootfs rootfs.sqsh -noI -noD -noF -noX
 
 
 export.tar: .docker-container.built
