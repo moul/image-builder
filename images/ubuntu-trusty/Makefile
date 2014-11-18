@@ -22,7 +22,7 @@ install_on_disk: rootfs.tar /mnt/$(DISK)
 	tar -C /mnt/$(DISK) -xf rootfs.tar
 
 
-publish_on_s3: publish_on_s3.tar publish_ons3.sqsh
+publish_on_s3: publish_on_s3.tar publish_on_s3.sqsh
 
 
 publish_on_s3.tar: rootfs.tar
@@ -35,7 +35,8 @@ publish_on_s3.sqsh: rootfs.sqsh
 
 clean:
 	docker rmi $(NAME):$(VERSION) || true
-	rm -f rootfs.tar .??*.built || true
+	rm -f rootfs.tar rootfs.sqsh export.tar .??*.built || true
+	rm -rf rootfs || true
 
 
 shell:  .docker-container.built
