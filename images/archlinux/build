@@ -33,7 +33,7 @@ patch_image() {
     sudo mkdir -p $TARGET/run/systemd/resolve
     sudo cp /etc/resolv.conf $TARGET/run/systemd/resolve/resolv.conf
 
-    patch_target common-patches
+    do_in_target 'curl https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | bash'
     patch_target archlinux-latest/patches
 
     # TODO Get ssh keys from config
