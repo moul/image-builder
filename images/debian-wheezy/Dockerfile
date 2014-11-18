@@ -1,5 +1,5 @@
 ## -*- docker-image-name: "armbuild/ocs-debian:wheezy" -*-
-FROM armbuild/debian-debootstrap:wheezy
+FROM armbuild/debian:wheezy
 
 # Prepare rootfs for image-builder
 ADD ./patches/usr/local/sbin/ /usr/local/sbin/
