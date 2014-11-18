@@ -1,4 +1,6 @@
 language: bash
 
 script:
-    - for file in images/*/build images/lib.sh; do bash -n $file; done
+    - for file in images/*/build; do bash -n $file; done
+    - for file in images/*/Dockerfile; do bash -n $file; done
+    - for file in images/*/Makefile; do make -n -C $(dirname $file); done
