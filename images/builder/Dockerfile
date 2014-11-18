@@ -5,11 +5,11 @@ FROM armbuild/ocs-rescue:trusty
 RUN /usr/local/sbin/builder-enter
 
 # Install packages
-RUN apt-get -q update &&
-    apt-get -q upgrade &&
+RUN apt-get -q update &&  \
+    apt-get -q upgrade && \
     apt-get install -y -q \
-        debootstrap \
-        xz-utils \
+        debootstrap       \
+        xz-utils          \
     && apt-get clean
 
 # Clean rootfs from image-builder

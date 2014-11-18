@@ -5,11 +5,11 @@ FROM armbuild/ocs-ubuntu:utopic
 RUN /usr/local/sbin/builder-enter
 
 # Install packages
-RUN apt-get -q update &&
-    apt-get -q upgrade &&
+RUN apt-get -q update &&  \
+    apt-get -q upgrade && \
     apt-get install -y -q \
-    	docker.io \
-	bridge-utils \
+    	docker.io         \
+	bridge-utils      \
     && apt-get clean
 
 # Patch rootfs

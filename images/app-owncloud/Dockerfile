@@ -5,8 +5,8 @@ FROM armbuild/ocs-ubuntu:trusty
 RUN /usr/local/sbin/builder-enter
 
 # Install packages
-RUN apt-get -q update &&
-    apt-get -q upgrade &&
+RUN apt-get -q update && \
+    apt-get -q upgrade && \
     apt-get install -y -q \
 	mysql-server \
 	owncloud \
