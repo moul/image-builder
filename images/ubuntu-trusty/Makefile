@@ -3,7 +3,7 @@ VERSION=trusty
 DISK=/dev/nbd1
 S3_URL=s3://test-images
 
-.PHONY: build release install_on_disk publish_on_s3 clean shell re all
+.PHONY: build release install_on_disk publish_on_s3 clean shell re all publish_on_s3.tar publish_on_s3.sqsh
 
 all: build
 
@@ -22,9 +22,15 @@ install_on_disk: rootfs.tar /mnt/$(DISK)
 	tar -C /mnt/$(DISK) -xf rootfs.tar
 
 
-publish_on_s3: rootfs.tar rootfs.sqsh
+publish_on_s3: publish_on_s3.tar publish_ons3.sqsh
+
+
+publish_on_s3.tar: rootfs.tar
 	s3cmd put --acl-public rootfs.tar $(S3_URL)/$(NAME)-$(VERSION).tar
-	s3cmd put --acl-public rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).tar
+
+
+publish_on_s3.sqsh: rootfs.sqsh
+	s3cmd put --acl-public rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).sqsh
 
 
 clean:
