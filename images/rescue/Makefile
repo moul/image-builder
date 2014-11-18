@@ -2,6 +2,7 @@ NAME=armbuild/ocs-rescue
 VERSION=trusty
 DISK=/dev/nbd1
 S3_URL=s3://test-images
+IS_LATEST=1
 
 .PHONY: build release install_on_disk publish_on_s3 clean shell re all publish_on_s3.tar publish_on_s3.sqsh
 
@@ -13,10 +14,12 @@ build: rootfs.tar
 
 
 release:
-	# docker tag $(NAME):$(VERSION) $(NAME):latest
 	docker tag $(NAME):$(VERSION) $(NAME):$(shell date +%Y-%m-%d)
 	docker push $(NAME):$(VERSION)
-
+	if [ "x$(IS_LATEST)" = "x1" ]; then              \
+	    docker tag $(NAME):$(VERSION) $(NAME):latest \
+	    docker push $(NAME):latest                   \
+	fi
 
 install_on_disk: rootfs.tar /mnt/$(DISK)
 	tar -C /mnt/$(DISK) -xf rootfs.tar
