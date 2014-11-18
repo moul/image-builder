@@ -5,7 +5,6 @@
 set -e
 
 # prevent init scripts from running during install/update
-printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d
-chmod +x /usr/sbin/policy-rc.d
-printf '#!/bin/sh\nexit 0\n' > /sbin/initctl
+printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
+rm -f /sbin/initctl && printf '#!/bin/sh\nexit 0\n' > /sbin/initctl
 dpkg-divert --local --rename --add /sbin/initctl
