@@ -1,5 +1,4 @@
 ## -*- docker-image-name: "armbuild/ocs-app-ghost:utopic" -*-
-
 FROM armbuild/ocs-ubuntu:utopic
 
 # Prepare rootfs for image-builder

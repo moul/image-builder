@@ -1,3 +1,4 @@
+## -*- docker-image-name: "armbuild/ocs-debian:wheezy" -*-
 FROM armbuild/debian-debootstrap:wheezy
 
 # Prepare rootfs for image-builder

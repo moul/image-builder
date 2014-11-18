@@ -1,3 +1,4 @@
+## -*- docker-image-name: "armbuild/ocs-app-owncloud:trusty" -*-
 FROM armbuild/ocs-ubuntu:trusty
 
 # Prepare rootfs for image-builder

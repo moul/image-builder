@@ -1,3 +1,4 @@
+## -*- docker-image-name: "armbuild/ocs-tryit-docker:utopic" -*-
 FROM armbuild/ocs-docker:utopic
 
 # Prepare rootfs for image-builder

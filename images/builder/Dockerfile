@@ -1,3 +1,4 @@
+## -*- docker-image-name: "armbuild/ocs-builder:trusty" -*-
 FROM armbuild/ocs-rescue:trusty
 
 # Prepare rootfs for image-builder
