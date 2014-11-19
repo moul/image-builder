@@ -14,7 +14,7 @@ RUN apt-get -q update && \
     && apt-get clean
 
 # Configure Apache
-RUN a2enmode rewrite
+RUN a2enmod rewrite
 
 # Patch rootfs
 ADD ./patches/ /
