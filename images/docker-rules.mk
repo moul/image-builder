@@ -1,7 +1,7 @@
 DISK ?= /dev/nbd1
 S3_URL ?= s3://test-images
 IS_LATEST ?= 0
-BUILDDIR ?= /tmp/$(NAME)/
+BUILDDIR ?= /tmp/build/$(NAME)/
 
 
 .PHONY: build release install_on_disk publish_on_s3 clean shell re all
@@ -62,6 +62,7 @@ $(BUILDDIR)rootfs: $(BUILDDIR)export.tar
 	mkdir $(BUILDDIR)rootfs.tmp
 	tar -C $(BUILDDIR)rootfs.tmp -xf $(BUILDDIR)export.tar
 	rm -f $(BUILDDIR)rootfs.tmp/.dockerenv $(BUILDDIR)rootfs.tmp/.dockerinit
+	rm -rf $(BUILDDIR)rootfs
 	mv $(BUILDDIR)rootfs.tmp $(BUILDDIR)rootfs
 
 
