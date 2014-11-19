@@ -24,7 +24,7 @@ RUN npm install -g tty.js
 RUN useradd -G sudo -s /bin/bash -m ubuntu
 
 # Remove password for sudo
-RUN sed -i '/sudo/s/ALL)/ALL) NOPASSWD:/' /etc/sudoer
+RUN sed -i '/sudo/s/ALL)/ALL) NOPASSWD:/' /etc/sudoers
 
 # Patch rootfs
 ADD ./patches/ /
