@@ -1,6 +1,7 @@
 DISK ?= /dev/nbd1
 S3_URL ?= s3://test-images
 IS_LATEST ?= 0
+BUILDDIR ?= /tmp/$(NAME)/
 
 
 .PHONY: build release install_on_disk publish_on_s3 clean shell re all
@@ -13,7 +14,7 @@ all: build
 re: clean all
 
 
-build: rootfs.tar
+build: $(BUILDDIR)rootfs.tar
 
 
 release:
@@ -25,24 +26,25 @@ release:
 	fi
 
 
-install_on_disk: rootfs.tar /mnt/$(DISK)
-	tar -C /mnt/$(DISK) -xf rootfs.tar
+install_on_disk: $(BUILDDIR)rootfs.tar /mnt/$(DISK)
+	tar -C /mnt/$(DISK) -xf $(BUILDDIR)rootfs.tar
 
 
 publish_on_s3: publish_on_s3.tar publish_on_s3.sqsh
 
 
-publish_on_s3.tar: rootfs.tar
-	s3cmd put --acl-public rootfs.tar $(S3_URL)/$(NAME)-$(VERSION).tar
+publish_on_s3.tar: $(BUILDDIR)rootfs.tar
+	s3cmd put --acl-public $(BUILDDIR)rootfs.tar $(S3_URL)/$(NAME)-$(VERSION).tar
 
 
-publish_on_s3.sqsh: rootfs.sqsh
-	s3cmd put --acl-public rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).sqsh
+publish_on_s3.sqsh: $(BUILDDIR)rootfs.sqsh
+	s3cmd put --acl-public $(BUILDDIR)rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).sqsh
 
 
 clean:
-	docker rmi $(NAME):$(VERSION) || true
-	rm -f rootfs.tar .??*.built || true
+	-docker rmi $(NAME):$(VERSION)
+	-rm -f $(BUILDDIR)rootfs.tar .??*.built
+	-rm -rf $(BUILDDIR)rootfs
 
 
 shell:  .docker-container.built
@@ -50,32 +52,33 @@ shell:  .docker-container.built
 
 
 .docker-container.built: Dockerfile
-	find patches -name '*~' -delete
+	-find patches -name '*~' -delete
 	docker build -t $(NAME):$(VERSION) .
 	docker inspect -f '{{.Id}}' $(NAME):$(VERSION) > .docker-container.built
 
 
-rootfs: export.tar
-	rm -rf rootfs.tmp
-	mkdir rootfs.tmp
-	tar -C rootfs.tmp -xf export.tar
-	rm -f rootfs.tmp/.dockerenv rootfs.tmp/.dockerinit
-	mv rootfs.tmp rootfs
+$(BUILDDIR)rootfs: $(BUILDDIR)export.tar
+	rm -rf $(BUILDDIR)rootfs.tmp
+	mkdir $(BUILDDIR)rootfs.tmp
+	tar -C $(BUILDDIR)rootfs.tmp -xf $(BUILDDIR)export.tar
+	rm -f $(BUILDDIR)rootfs.tmp/.dockerenv $(BUILDDIR)rootfs.tmp/.dockerinit
+	mv $(BUILDDIR)rootfs.tmp $(BUILDDIR)rootfs
 
 
-rootfs.tar: rootfs
-	tar --format=gnu -C rootfs -cf rootfs.tar.tmp .
-	mv rootfs.tar.tmp rootfs.tar
+$(BUILDDIR)rootfs.tar: $(BUILDDIR)rootfs
+	tar --format=gnu -C $(BUILDDIR)rootfs -cf $(BUILDDIR)rootfs.tar.tmp .
+	mv $(BUILDDIR)rootfs.tar.tmp $(BUILDDIR)rootfs.tar
 
 
-rootfs.sqsh: rootfs
-	mksquashfs rootfs rootfs.sqsh -noI -noD -noF -noX
+$(BUILDDIR)rootfs.sqsh: $(BUILDDIR)rootfs
+	mksquashfs $(BUILDDIR)rootfs $(BUILDDIR)rootfs.sqsh -noI -noD -noF -noX
 
 
-export.tar: .docker-container.built
-	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
-	docker export $(shell docker ps -lq) > export.tar.tmp
-	mv export.tar.tmp export.tar
+$(BUILDDIR)export.tar: .docker-container.built
+	-mkdir -p $(BUILDDIR)
+	-docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null
+	docker export $(shell docker ps -lq) > $(BUILDDIR)export.tar.tmp
+	mv $(BUILDDIR)export.tar.tmp $(BUILDDIR)export.tar
 
 
 /mnt/$(DISK):
