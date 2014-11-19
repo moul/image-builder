@@ -76,7 +76,7 @@ $(BUILDDIR)rootfs.sqsh: $(BUILDDIR)rootfs
 
 $(BUILDDIR)export.tar: .docker-container.built
 	-mkdir -p $(BUILDDIR)
-	-docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null
+	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
 	docker export $(shell docker ps -lq) > $(BUILDDIR)export.tar.tmp
 	mv $(BUILDDIR)export.tar.tmp $(BUILDDIR)export.tar
 
