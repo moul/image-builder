@@ -31,13 +31,13 @@ RUN a2enmod rewrite && \
     ln -sf /usr/share/doc/pydio/apache2.sample.conf /etc/apache2/sites-enabled/pydio.conf && \
     ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
 
+# Patch rootfs
+ADD ./patches/ /
+
 # Install Pydio dependencies
 RUN cd /usr/share/pydio && curl -sS https://getcomposer.org/installer | php && \
     cd /usr/share/pydio && php composer.phar install && \
     wget -qO /usr/share/pydio/aws.phar https://github.com/aws/aws-sdk-php/releases/download/2.7.2/aws.phar
-
-# Patch rootfs
-ADD ./patches/ /
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave
