@@ -12,7 +12,13 @@ RUN apt-get -q update &&  \
 	bridge-utils      \
     && apt-get clean
 
-RUN wget -O /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && chmod +x /usr/local/bin/pipework
+# Install Pipework
+RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && \
+    chmod +x /usr/local/bin/pipework
+
+# Install Gosu
+RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.2/gosu-armhf && \
+    chmod +x /usr/local/bin/gosu
 
 # Patch rootfs
 ADD ./patches/ /
