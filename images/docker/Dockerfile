@@ -12,6 +12,8 @@ RUN apt-get -q update &&  \
 	bridge-utils      \
     && apt-get clean
 
+RUN wget -O /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && chmod +x /usr/local/bin/pipework
+
 # Patch rootfs
 ADD ./patches/ /
 
