@@ -14,7 +14,11 @@ all: build
 re: clean all
 
 
-build: $(BUILDDIR)rootfs.tar
+build: .docker-container.built
+
+
+run: build
+	docker run -it --rm $(NAME):$(VERSION) /bin/bash
 
 
 release:
