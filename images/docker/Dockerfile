@@ -10,6 +10,7 @@ RUN apt-get -q update &&  \
     apt-get install -y -q \
     	docker.io         \
 	bridge-utils      \
+	python-setuptools \
     && apt-get clean
 
 # Install Pipework
@@ -20,8 +21,12 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.2/gosu-armhf && \
     chmod +x /usr/local/bin/gosu
 
+ADD ./fig.egg /tmp/
+RUN easy_install /tmp/fig.egg && \
+    rm -f /tmp/fig.egg
+
 # Patch rootfs
-ADD ./patches/ /
+#ADD ./patches/ /
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave
