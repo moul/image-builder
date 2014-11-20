@@ -19,6 +19,12 @@ publish_on_s3:
 	done
 
 
+publish_on_s3.tar:
+	for image in $(IMAGES); do   \
+		$(MAKE) -C $$image publish_on_s3.tar; \
+	done
+
+
 release:
 	for image in $(IMAGES); do   \
 		$(MAKE) -C $$image release; \
