@@ -22,7 +22,7 @@ RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/downloa
     chmod +x /usr/local/bin/gosu
 
 # Install fig
-ADD ./fig.egg /tmp/
+ADD ./sources/fig.egg /tmp/
 RUN easy_install /tmp/fig.egg && \
     rm -f /tmp/fig.egg
 
