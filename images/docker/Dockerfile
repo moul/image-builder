@@ -13,14 +13,6 @@ RUN apt-get -q update &&  \
 	python-setuptools \
     && apt-get clean
 
-# Install Pipework
-RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && \
-    chmod +x /usr/local/bin/pipework
-
-# Install Gosu
-RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.2/gosu-armhf && \
-    chmod +x /usr/local/bin/gosu
-
 # Install fig
 ADD ./sources/fig.egg /tmp/
 RUN easy_install /tmp/fig.egg && \
@@ -33,6 +25,14 @@ RUN mv /usr/bin/docker /usr/bin/docker.distrib && \
     mv /tmp/docker-1.3.1/usr/bin/docker /usr/bin/docker-1.3.1 && \
     rm -rf /tmp/docker-1.3.1 /tmp/docker-1.3.1.deb && \
     ln -s docker-1.3.1 /usr/bin/docker
+
+# Install Pipework
+RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/pipework/master/pipework && \
+    chmod +x /usr/local/bin/pipework
+
+# Install Gosu
+RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.2/gosu-armhf && \
+    chmod +x /usr/local/bin/gosu
 
 # Patch rootfs
 ADD ./patches/ /
