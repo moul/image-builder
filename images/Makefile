@@ -29,3 +29,7 @@ release:
 	for image in $(IMAGES); do   \
 		$(MAKE) -C $$image release; \
 	done
+
+
+clean:
+	-rm -f */.docker-container.built
