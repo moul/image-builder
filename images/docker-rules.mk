@@ -1,7 +1,7 @@
 DISK ?= /dev/nbd1
 S3_URL ?= s3://test-images
 IS_LATEST ?= 0
-BUILDDIR ?= /tmp/build/$(NAME)/
+BUILDDIR ?= /tmp/build/$(NAME)-$(VERSION)/
 
 
 .PHONY: build release install_on_disk publish_on_s3 clean shell re all
