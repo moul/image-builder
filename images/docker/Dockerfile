@@ -21,12 +21,21 @@ RUN wget -qO /usr/local/bin/pipework https://raw.githubusercontent.com/jpetazzo/
 RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/download/1.2/gosu-armhf && \
     chmod +x /usr/local/bin/gosu
 
+# Install fig
 ADD ./fig.egg /tmp/
 RUN easy_install /tmp/fig.egg && \
     rm -f /tmp/fig.egg
 
+# Upgrade docker binary
+RUN mv /usr/bin/docker /usr/bin/docker.distrib && \
+    wget -qO /tmp/docker-1.3.1.deb http://ftp.us.debian.org/debian/pool/main/d/docker.io/docker.io_1.3.1~dfsg1-2_armhf.deb && \
+    dpkg -x /tmp/docker-1.3.1.deb /tmp/docker-1.3.1 && \
+    mv /tmp/docker-1.3.1/usr/bin/docker /usr/bin/docker-1.3.1 && \
+    rm -rf /tmp/docker-1.3.1 /tmp/docker-1.3.1.deb && \
+    ln -s docker-1.3.1 /usr/bin/docker
+
 # Patch rootfs
-#ADD ./patches/ /
+ADD ./patches/ /
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave
