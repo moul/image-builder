@@ -63,8 +63,8 @@ shell:  .docker-container.built
 
 
 $(BUILDDIR)rootfs: $(BUILDDIR)export.tar
-	rm -rf $(BUILDDIR)rootfs.tmp
-	mkdir $(BUILDDIR)rootfs.tmp
+	-rm -rf $(BUILDDIR)rootfs.tmp
+	-mkdir -p $(BUILDDIR)rootfs.tmp
 	tar -C $(BUILDDIR)rootfs.tmp -xf $(BUILDDIR)export.tar
 	rm -f $(BUILDDIR)rootfs.tmp/.dockerenv $(BUILDDIR)rootfs.tmp/.dockerinit
 	rm -rf $(BUILDDIR)rootfs
