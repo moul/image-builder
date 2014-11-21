@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-app-builder
+NAME =      armbuild/ocs-builder
 VERSION =   trusty
 IS_LATEST = 1
 
