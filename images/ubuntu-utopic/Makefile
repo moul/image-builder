@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-ubuntu
+NAME =      ocs-ubuntu
 VERSION =   utopic
 IS_LATEST = 1
 

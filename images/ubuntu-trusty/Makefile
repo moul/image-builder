@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-ubuntu
+NAME =      ocs-ubuntu
 VERSION =   trusty
 IS_LATEST = 0
 

@@ -1,3 +1,4 @@
+DOCKER_NAMESPACE ?= armbuild/
 DISK ?= /dev/nbd1
 S3_URL ?= s3://test-images
 IS_LATEST ?= 0
@@ -22,12 +23,13 @@ run: build
 
 
 release:
-	docker tag  $(NAME):$(VERSION) $(NAME):$(shell date +%Y-%m-%d)
-	docker push $(NAME):$(VERSION)
-	docker push $(NAME):$(shell date +%Y-%m-%d)
-	if [ "x$(IS_LATEST)" = "x1" ]; then               \
-	    docker tag $(NAME):$(VERSION) $(NAME):latest; \
-	    docker push $(NAME):latest;                   \
+	docker tag  $(NAME):$(VERSION) $(DOCKER_NAMESPACE)$(NAME):$(VERSION)
+	docker tag  $(NAME):$(VERSION) $(DOCKER_NAMESPACE)$(NAME):$(shell date +%Y-%m-%d)
+	docker push $(DOCKER_NAMESPACE)$(NAME):$(VERSION)
+	docker push $(DOCKER_NAMESPACE)$(NAME):$(shell date +%Y-%m-%d)
+	if [ "x$(IS_LATEST)" = "x1" ]; then \
+	    docker tag  $(NAME):$(VERSION) $(DOCKER_NAMESPACE)$(NAME):latest; \
+	    docker push $(DOCKER_NAMESPACE)$(NAME):latest; \
 	fi
 
 
@@ -47,7 +49,7 @@ publish_on_s3.sqsh: $(BUILDDIR)rootfs.sqsh
 
 
 clean:
-	-docker rmi $(NAME):$(VERSION)
+	-docker rmi $(NAME):$(VERSION) || true
 	-rm -f $(BUILDDIR)rootfs.tar .??*.built
 	-rm -rf $(BUILDDIR)rootfs
 
@@ -82,8 +84,9 @@ $(BUILDDIR)rootfs.sqsh: $(BUILDDIR)rootfs
 
 $(BUILDDIR)export.tar: .docker-container.built
 	-mkdir -p $(BUILDDIR)
-	docker run --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
-	docker export $(shell docker ps -lq) > $(BUILDDIR)export.tar.tmp
+	docker run --name $(NAME)-$(VERSION)-export --entrypoint /dontexists $(NAME):$(VERSION) 2>/dev/null || true
+	docker export $(NAME)-$(VERSION)-export > $(BUILDDIR)export.tar.tmp
+	docker rm $(NAME)-$(VERSION)-export
 	mv $(BUILDDIR)export.tar.tmp $(BUILDDIR)export.tar
 
 

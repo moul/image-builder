@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-app-pydio
+NAME =      ocs-app-pydio
 VERSION =   utopic
 IS_LATEST = 1
 

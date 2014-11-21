@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-rescue
+NAME =      ocs-rescue
 VERSION =   trusty
 IS_LATEST = 1
 

@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-tryit-docker
+NAME =      ocs-tryit-docker
 VERSION =   utopic
 IS_LATEST = 1
 

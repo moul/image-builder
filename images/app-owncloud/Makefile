@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-app-owncloud
+NAME =      ocs-app-owncloud
 VERSION =   trusty
 IS_LATEST = 1
 

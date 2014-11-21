@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-app-ghost
+NAME =      ocs-app-ghost
 VERSION =   utopic
 IS_LATEST = 1
 

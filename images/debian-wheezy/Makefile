@@ -1,4 +1,4 @@
-NAME =      armbuild/ocs-debian
+NAME =      ocs-debian
 VERSION =   wheezy
 IS_LATEST = 1
 
