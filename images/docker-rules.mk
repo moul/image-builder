@@ -12,7 +12,7 @@ BUILDDIR ?= /tmp/build/$(NAME)-$(VERSION)/
 all: build
 
 
-re: clean all
+re: clean build
 
 
 build: .docker-container.built
@@ -48,9 +48,12 @@ publish_on_s3.sqsh: $(BUILDDIR)rootfs.sqsh
 	s3cmd put --acl-public $(BUILDDIR)rootfs.sqsh $(S3_URL)/$(NAME)-$(VERSION).sqsh
 
 
-clean:
+fclean: clean
 	-docker rmi $(NAME):$(VERSION) || true
-	-rm -f $(BUILDDIR)rootfs.tar .??*.built
+
+
+clean:
+	-rm -f $(BUILDDIR)rootfs.tar $(BUILDDIR)export.tar .??*.built
 	-rm -rf $(BUILDDIR)rootfs
 
 
