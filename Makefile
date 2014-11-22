@@ -1,7 +1,12 @@
-IMAGES ?=	ubuntu-trusty ubuntu-utopic debian-wheezy      \
-		rescue docker                                  \
-		builder tryit-docker                           \
-		app-pydio app-owncloud app-wordpress app-ghost
+DISTRIB_IMAGES ?= \
+	distrib-ubuntu-trusty distrib-ubuntu-utopic \
+	distrib-debian-wheezy
+
+APP_IMAGES ?= \
+	app-docker app-rescue app-builder app-tryit-docker \
+	app-pydio app-owncloud app-wordpress app-ghost
+
+IMAGES ?=	$(DISTRIB_IMAGES) $(APP_IMAGES)
 
 
 all:    build
@@ -35,3 +40,5 @@ clean:
 	for image in $(IMAGES); do \
 		$(MAKE) -C $$image clean; \
 	done
+
+# FIXME: add a templated rule
