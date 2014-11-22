@@ -15,4 +15,7 @@
 #export TMPDIR="/mnt/bigdrive/docker-tmp"
 
 # small hack: ensure loop module is loaded
-modprobe loop
+ldmod | grep loop || (
+      sleep 2
+      modprobe loop
+)
