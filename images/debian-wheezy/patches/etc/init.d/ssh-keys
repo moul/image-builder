@@ -11,13 +11,15 @@
 
 set -e
 
+export PATH="${PATH:+$PATH:}/bin:/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin:/sbin"
+
 sshkey_start() {
     if [ ! -f /etc/ssh/ssh_host_rsa_key ]
     then
         ssh-keygen -t rsa -b 4096 -N '' -f /etc/ssh/ssh_host_rsa_key
         ssh-keygen -t dsa -N '' -f /etc/ssh/ssh_host_dsa_key
         ssh-keygen -t ecdsa -N '' -f /etc/ssh/ssh_host_ecdsa_key
-        ssh-keygen -t ed25519 -N '' -f /etc/ssh/ssh_host_ed25519_key
+        ssh-keygen -t ed25519 -N '' -f /etc/ssh/ssh_host_ed25519_key || true
     fi
 
     if [ ! -f /root/.ssh/authorized_keys ]
@@ -26,20 +28,12 @@ sshkey_start() {
 	chmod 700 /root/.ssh
     fi
 
-    /usr/local/bin/oc-metadata | grep SSH_PUBLIC_KEYS_.*_KEY | cut -d'=' -f 2- | tr -d \' > /root/.ssh/authorized_keys
+    oc-metadata | grep SSH_PUBLIC_KEYS_.*_KEY | cut -d'=' -f 2- | tr -d \' > /root/.ssh/authorized_keys
 }
 
 
-export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
-
 case "$1" in
-  start)
-	sshkey_start
-	;;
-  reload|force-reload)
-	sshkey_start
-	;;
-  restart)
+  start|reload|force-reload|restart)
 	sshkey_start
 	;;
   *)
