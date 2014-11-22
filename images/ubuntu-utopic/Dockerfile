@@ -35,6 +35,7 @@ RUN apt-get -q update && \
 	netcat \
 	ntp \
 	ntpdate \
+	rsync \
 	rsyslog \
 	screen \
 	socat \
