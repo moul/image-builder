@@ -1,4 +1,4 @@
-IMAGES =	ubuntu-trusty ubuntu-utopic debian-wheezy      \
+IMAGES ?=	ubuntu-trusty ubuntu-utopic debian-wheezy      \
 		rescue docker                                  \
 		builder tryit-docker                           \
 		app-pydio app-owncloud app-wordpress app-ghost
