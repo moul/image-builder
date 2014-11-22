@@ -41,6 +41,7 @@ RUN apt-get -q update && \
 	socat \
 	ssh \
 	sudo \
+	sysstat \
 	tcpdump \
 	tmux \
 	vim \
