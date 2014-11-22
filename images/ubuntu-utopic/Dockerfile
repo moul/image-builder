@@ -26,6 +26,8 @@ RUN apt-get -q update && \
 	locate \
 	lsof \
 	make \
+	mg \
+	mosh \
 	man-db \
 	nano \
 	nbd-client \
