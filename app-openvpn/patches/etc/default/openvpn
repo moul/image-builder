@@ -33,24 +33,19 @@ OMIT_SENDSIGS=0
     mkdir -p /dev/net
 [ -c /dev/net/tun ] ||
     mknod /dev/net/tun c 10 200
-[ -f dh.pem ] ||
+[ -f /dev/openvpn/dh.pem ] ||
     openssl dhparam -out /etc/openvpn/dh.pem 512
-[ -f key.pem ] ||
+[ -f /etc/openvpn/key.pem ] ||
     openssl genrsa -out /etc/openvpn/key.pem 2048
-chmod 600 key.pem
-[ -f csr.pem ] ||
+chmod 600 /etc/openvpn/key.pem
+[ -f /etc/openvpn/csr.pem ] ||
     openssl req -new -key /etc/openvpn/key.pem -out /etc/openvpn/csr.pem -subj /CN=OpenVPN/
-[ -f cert.pem ] ||
+[ -f /etc/openvpn/cert.pem ] ||
     openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 36525
 
 # Regenerate on each system startups (remote ip address can change)
-MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
-[ "$MY_IP_ADDR" ] || {
-    echo "Sorry, I could not figure out my public IP address."
-    echo "(I use http://myip.enix.org/REMOTE_ADDR/ for that purpose.)"
-    exit 1
-}
-cat >/etc/openvpn/client.ovpn <<EOF
+MY_IP_ADDR=$(/usr/local/bin/oc-metadata PUBLIC_IP_ADDRESS)
+cat >/root/client.ovpn <<EOF
 client
 nobind
 dev tun
