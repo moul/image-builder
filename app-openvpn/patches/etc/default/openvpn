@@ -50,7 +50,7 @@ MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
     echo "(I use http://myip.enix.org/REMOTE_ADDR/ for that purpose.)"
     exit 1
 }
-cat >client.ovpn <<EOF
+cat >/etc/openvpn/client.ovpn <<EOF
 client
 nobind
 dev tun
