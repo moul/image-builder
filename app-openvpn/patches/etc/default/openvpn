@@ -42,3 +42,35 @@ chmod 600 key.pem
     openssl req -new -key /etc/openvpn/key.pem -out /etc/openvpn/csr.pem -subj /CN=OpenVPN/
 [ -f cert.pem ] ||
     openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 36525
+
+# Regenerate on each system startups (remote ip address can change)
+MY_IP_ADDR=$(curl -s http://myip.enix.org/REMOTE_ADDR)
+[ "$MY_IP_ADDR" ] || {
+    echo "Sorry, I could not figure out my public IP address."
+    echo "(I use http://myip.enix.org/REMOTE_ADDR/ for that purpose.)"
+    exit 1
+}
+cat >client.ovpn <<EOF
+client
+nobind
+dev tun
+redirect-gateway def1
+<key>
+`cat /etc/openvpn/key.pem`
+</key>
+<cert>
+`cat /etc/openvpn/cert.pem`
+</cert>
+<ca>
+`cat /etc/openvpn/cert.pem`
+</ca>
+<dh>
+`cat /etc/openvpn/dh.pem`
+</dh>
+<connection>
+remote $MY_IP_ADDR 1194 udp
+</connection>
+<connection>
+remote $MY_IP_ADDR 443 tcp-client
+</connection>
+EOF
