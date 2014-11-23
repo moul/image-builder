@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cat <<EOF
+
+OpenVPN server is listening on ports 443/TCP and 1194/UDP.
+A client configuration file is available on /root/client.ovpn.
+This configuration file contains all the certificates and configuration.
+EOF
+
+echo

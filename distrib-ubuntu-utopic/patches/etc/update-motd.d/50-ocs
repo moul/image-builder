@@ -1,0 +1,19 @@
+#!/bin/bash
+
+[ -r /etc/ocs-release ] && . /etc/ocs-release
+
+METADATA=$(/usr/local/bin/oc-metadata)
+
+metadata() {
+  key=$1
+  echo "$METADATA" | grep "^$key=" | cut -d= -f2 | sed "s/^['\"]//;s/['\"]$//"
+}
+
+cat<<EOF
+
+You are running the $IMAGE_ID image on Online Labs' C1 on $(metadata VOLUMES_0_VOLUME_TYPE) disk.
+This image was built using on $IMAGE_RELEASE using https://github.com/online-labs/image-builder.
+You can find help on $IMAGE_HELP_URL.
+
+Your external ip address is: $(metadata PUBLIC_IP_ADDRESS)
+EOF
