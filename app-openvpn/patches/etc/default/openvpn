@@ -1,0 +1,44 @@
+# This is the configuration file for /etc/init.d/openvpn
+
+#
+# Start only these VPNs automatically via init script.
+# Allowed values are "all", "none" or space separated list of
+# names of the VPNs. If empty, "all" is assumed.
+# The VPN name refers to the VPN configutation file name.
+# i.e. "home" would be /etc/openvpn/home.conf
+#
+AUTOSTART="all"
+#AUTOSTART="none"
+#AUTOSTART="home office"
+#
+# Refresh interval (in seconds) of default status files
+# located in /var/run/openvpn.$NAME.status
+# Defaults to 10, 0 disables status file generation
+#
+#STATUSREFRESH=10
+#STATUSREFRESH=0
+# Optional arguments to openvpn's command line
+OPTARGS=""
+#
+# If you need openvpn running after sendsigs, i.e.
+# to let umountnfs work over the vpn, set OMIT_SENDSIGS
+# to 1 and include umountnfs as Required-Stop: in openvpn's
+# init.d script (remember to run insserv after that)
+#
+OMIT_SENDSIGS=0
+
+
+# Online C1 - Hacks
+[ -d /dev/net ] ||
+    mkdir -p /dev/net
+[ -c /dev/net/tun ] ||
+    mknod /dev/net/tun c 10 200
+[ -f dh.pem ] ||
+    openssl dhparam -out /etc/openvpn/dh.pem 512
+[ -f key.pem ] ||
+    openssl genrsa -out /etc/openvpn/key.pem 2048
+chmod 600 key.pem
+[ -f csr.pem ] ||
+    openssl req -new -key /etc/openvpn/key.pem -out /etc/openvpn/csr.pem -subj /CN=OpenVPN/
+[ -f cert.pem ] ||
+    openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 36525

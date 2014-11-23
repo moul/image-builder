@@ -10,6 +10,7 @@ RUN apt-get -q update && \
     apt-get install -y -q \
 	curl \
 	iptables \
+	iptables-persistent \
     	openvpn \
     && apt-get clean
 

@@ -11,6 +11,4 @@
 #
 # By default this script does nothing.
 
-curl https://raw.githubusercontent.com/jpetazzo/dockvpn/master/bin/run | head -n -3 | bash -e
-
 exit 0
