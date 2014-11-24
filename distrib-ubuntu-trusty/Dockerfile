@@ -12,6 +12,7 @@ RUN apt-get -q update && \
     apt-get install -y -qq \
 	cron \
 	curl \
+	dbus \
 	dstat \
 	ethstatus \
 	file \
@@ -22,6 +23,7 @@ RUN apt-get -q update && \
 	iptables \
 	iputils-ping \
 	isc-dhcp-client \
+	lsb-release \
 	less \
 	locate \
 	lsof \

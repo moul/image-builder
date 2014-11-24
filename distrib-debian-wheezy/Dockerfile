@@ -12,6 +12,7 @@ RUN apt-get -q update && \
     apt-get install -y -q \
 	    cron \
 	    curl \
+	    dbus \
 	    dstat \
 	    ethstatus \
 	    file \
