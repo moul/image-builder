@@ -57,6 +57,7 @@ RUN apt-get -q update && \
 # - Add ocs-scripts
 # - Tweaks rootfs so it matches Online Labs infrastructure
 RUN curl https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | bash
+RUN rm -f /etc/update-motd.d/10-help-text /etc/update-motd.d/00-header
 ADD ./patches/ /
 
 # Configure locales
