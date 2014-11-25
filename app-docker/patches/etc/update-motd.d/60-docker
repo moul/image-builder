@@ -1,0 +1,14 @@
+#!/bin/bash
+
+PATH=/bin:/usr/bin:/usr/local/bin
+
+DOCKER_VERSION=$(docker version)
+DOCKER_INFO=$(docker info)
+
+cat <<EOF cat <<EOF
+EOF
+
+Docker $(echo "$DOCKER_VERSION" | grep Client\ version | awk '{print $NF}') is running using the $(echo "$DOCKER_INFO" | grep Storage\ Driver | awk '{print $NF}') storage driver.
+Installed tools: fig, nsenter, gosu and pipework are installed.
+Getting started with Docker on C1: https://community.cloud.online.net/t/383?u=manfred.
+EOF
