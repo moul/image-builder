@@ -9,8 +9,9 @@ RUN apt-get -q update && \
     apt-get -q upgrade && \
     apt-get install -y -q \
 	mysql-server \
-	owncloud \
 	pwgen \
+    && apt-get install --no-install-recommends -y -q \
+        owncloud \
     && apt-get clean
 
 # Configure Apache
