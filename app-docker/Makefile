@@ -2,7 +2,7 @@ NAME =		ocs-docker
 VERSION =	utopic
 IS_LATEST =	1
 TITLE =		Docker
-DESCRIPTION =	Docker 1.3.1 + fig + nsenter + pipework + gosu
+DESCRIPTION =	Docker 1.3.2 + fig + nsenter + pipework + gosu
 SOURCE_URL =	https://github.com/online-labs/image-builder/tree/master/app-docker
 
 include ../docker-rules.mk

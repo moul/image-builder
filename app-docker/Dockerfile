@@ -17,9 +17,9 @@ RUN apt-get -q update &&  \
 
 # Install docker
 RUN apt-get -y -q install libapparmor1 libdevmapper1.02.1 && apt-get clean && \
-    wget -qO /tmp/docker-1.3.1.deb http://ftp.us.debian.org/debian/pool/main/d/docker.io/docker.io_1.3.1~dfsg1-2_armhf.deb && \
-    dpkg --force-all -i /tmp/docker-1.3.1.deb && \
-    rm -f /tmp/docker-1.3.1.deb
+    wget -qO /tmp/docker-1.3.2.deb http://ftp.fr.debian.org/debian/pool/main/d/docker.io/docker.io_1.3.2~dfsg1-1_armhf.deb && \
+    dpkg --force-all -i /tmp/docker-1.3.2.deb && \
+    rm -f /tmp/docker-1.3.2.deb
 
 
 # Install fig
