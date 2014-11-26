@@ -29,16 +29,17 @@ RUN wget -qO ghost.zip https://ghost.org/zip/ghost-0.5.3.zip && \
 # Patches
 ADD ./patches/ /
 
+# Add ghost user
+RUN useradd ghost && chown -R ghost:ghost /var/www
+
 # Configures nginx
 RUN ln -sf /etc/nginx/sites-available/ghost /etc/nginx/sites-enabled/ghost && \
     rm -f /etc/nginx/sites-enabled/default
 
-# Configures supervisord
-RUN supervisorctl start ghost
-
-
 # Patch rootfs
 ADD ./patches/ /
+
+
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave
