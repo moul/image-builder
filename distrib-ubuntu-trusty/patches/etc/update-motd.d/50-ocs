@@ -50,7 +50,7 @@ echo " * Uptime:          $(/usr/bin/uptime)"
 cat<<EOF
 
 Links
- * Documentation:    https://doc.cloud.online.net/
+ * Documentation:    $IMAGE_DOC_URL
  * Community:        $IMAGE_HELP_URL
- * Image source:     https://github.com/online-labs/image-builder
+ * Image source:     $IMAGE_SOURCE_URL
 EOF
