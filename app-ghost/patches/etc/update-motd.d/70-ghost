@@ -1,0 +1,10 @@
+#!/bin/bash
+
+cat <<EOF
+
+Ghost $(cat /var/www/package.json | grep version | cut -d\" -f4) is installed in /var/www.
+You can customize the /var/www/config.js file using this documentation: http://support.ghost.org/config/.
+the sqlite database is located at /var/www/content/data/ghost.db.
+To continue the installation, open http://$(/usr/local/bin/oc-metadata PUBLIC_IP_ADDRESS)/ghost/setup in your browser.
+You can hide this message on the next connection by deleting the $0 file.
+EOF
