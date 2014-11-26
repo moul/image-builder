@@ -60,6 +60,7 @@ RUN apt-get -q update && \
 # - Tweaks rootfs so it matches Online Labs infrastructure
 RUN wget -qO - https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | FLAVORS=sysvinit bash
 ADD ./patches/ /
+RUN rm -f /etc/motd && ln -s /var/run/motd /etc/motd
 
 # Configure locales
 RUN locale-gen
