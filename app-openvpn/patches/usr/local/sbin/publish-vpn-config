@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+BASEDIR=/tmp/publish-vpn-config
+UUID=$(uuid)
+
+rm -rf $BASEDIR && mkdir -p $BASEDIR/$UUID && touch $BASEDIR/index.html
+cp /root/client.ovpn $BASEDIR/$UUID/$(oc-metadata HOSTNAME).ovpn
+
+(ps aux | grep SimpleHTTP | grep -v grep | awk '{print $2}' | xargs kill -9) >/dev/null 2>/dev/null
+sleep .1
+(cd $BASEDIR && python -m SimpleHTTPServer 8000 &) >/dev/null 2>/dev/null

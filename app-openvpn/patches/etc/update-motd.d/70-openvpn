@@ -1,9 +1,18 @@
 #!/bin/bash
 
-cat <<EOF
+UUID=$(ls /tmp/publish-vpn-config/ | grep -v index.html)
+METADATA=$(/usr/local/bin/oc-metadata)
+
+metadata() {
+  key=$1
+  echo "$METADATA" | grep "^$key=" | cut -d= -f2 | sed "s/^['\"]//;s/['\"]$//"
+}
+
+cat <<EOF #!/bin/bash
+EOF
 
 OpenVPN server is listening on ports 443/TCP and 1194/UDP.
-A client configuration file is available on /root/client.ovpn.
+A client configuration file is available on /root/client.ovpn or at http://$(metadata PUBLIC_IP_ADDRESS):8000/$UUID/$(metadata HOSTNAME).ovpn
 This configuration file contains all the certificates and configuration.
 EOF
 

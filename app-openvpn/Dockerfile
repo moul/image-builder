@@ -12,6 +12,7 @@ RUN apt-get -q update && \
 	iptables \
 	iptables-persistent \
     	openvpn \
+	uuid \
     && apt-get clean
 
 # Patch rootfs
