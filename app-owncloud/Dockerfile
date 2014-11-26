@@ -17,6 +17,9 @@ RUN apt-get -q update && \
 # Configure Apache
 RUN a2enmod rewrite
 
+# Update permissions
+RUN chown -R www-data:www-data /etc/owncloud
+
 # Patch rootfs
 ADD ./patches/ /
 
