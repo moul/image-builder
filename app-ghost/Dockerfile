@@ -36,10 +36,5 @@ RUN useradd ghost && chown -R ghost:ghost /var/www
 RUN ln -sf /etc/nginx/sites-available/ghost /etc/nginx/sites-enabled/ghost && \
     rm -f /etc/nginx/sites-enabled/default
 
-# Patch rootfs
-ADD ./patches/ /
-
-
-
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave
