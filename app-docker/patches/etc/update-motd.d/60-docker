@@ -5,8 +5,7 @@ PATH=/bin:/usr/bin:/usr/local/bin
 DOCKER_VERSION=$(docker version)
 DOCKER_INFO=$(docker info)
 
-cat <<EOF cat <<EOF
-EOF
+cat <<EOF
 
 Docker $(echo "$DOCKER_VERSION" | grep Client\ version | awk '{print $NF}') is running using the $(echo "$DOCKER_INFO" | grep Storage\ Driver | awk '{print $NF}') storage driver.
 Installed tools: fig, nsenter, gosu and pipework are installed.
