@@ -3,7 +3,7 @@ DISTRIB_IMAGES ?= \
 	distrib-debian-wheezy
 
 APP_IMAGES ?= \
-	app-docker app-rescue app-builder app-tryit-docker \
+	app-docker app-rescue app-builder app-tryit \
 	app-pydio app-owncloud app-wordpress app-ghost
 
 IMAGES ?=	$(DISTRIB_IMAGES) $(APP_IMAGES)
