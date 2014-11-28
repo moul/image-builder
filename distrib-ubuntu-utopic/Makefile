@@ -1,4 +1,4 @@
-NAME =		ocs-ubuntu
+NAME =		ocs-distrib-ubuntu
 VERSION =	utopic
 IS_LATEST =	1
 TITLE =		Ubuntu Utopic

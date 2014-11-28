@@ -1,4 +1,4 @@
-NAME =		ocs-debian
+NAME =		ocs-distrib-debian
 VERSION =	wheezy
 IS_LATEST =	1
 TITLE =		Debian

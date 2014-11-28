@@ -1,4 +1,4 @@
-NAME =		ocs-ubuntu
+NAME =		ocs-distrib-ubuntu
 VERSION =	trusty
 IS_LATEST =	0
 TITLE =		Ubuntu Trusty

@@ -1,4 +1,4 @@
-NAME =		ocs-docker
+NAME =		ocs-app-docker
 VERSION =	utopic
 IS_LATEST =	1
 TITLE =		Docker
