@@ -23,14 +23,14 @@ RUN apt-get -q update && \
 	iptables \
 	iputils-ping \
 	isc-dhcp-client \
-	lsb-release \
 	less \
 	locate \
+	lsb-release \
 	lsof \
 	make \
+	man-db \
 	mg \
 	mosh \
-	man-db \
 	nano \
 	nbd-client \
 	net-tools \
