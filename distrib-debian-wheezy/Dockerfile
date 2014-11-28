@@ -1,9 +1,19 @@
 ## -*- docker-image-name: "armbuild/ocs-debian:wheezy" -*-
 FROM armbuild/debian:wheezy
+MAINTAINER Online Labs <opensource@ocs.online.net>
+ 	    	    
+ENV DEBIAN_FRONTEND noninteractive
+ENV OCS_BASE_IMAGE armbuild/ocs-debian:wheezy
 
-# Prepare rootfs for image-builder
-ADD ./patches/usr/local/sbin/ /usr/local/sbin/
-RUN /usr/local/sbin/builder-enter
+# Patch rootfs for docker-based builds
+RUN apt-get -q update && \
+    apt-get -y -qq install wget && \
+    apt-get clean && \
+    mkdir -p /usr/local/sbin && \
+    wget -q https://raw.githubusercontent.com/online-labs/ocs-scripts/master/skeleton-docker-based/usr/local/sbin/builder-enter -O /usr/local/sbin/builder-enter && \
+    chmod +x /usr/local/sbin/builder-enter && \
+    /usr/local/sbin/builder-enter
+
 
 # Install packages
 ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
@@ -58,9 +68,9 @@ RUN apt-get -q update && \
 # Patch rootfs
 # - Add ocs-scripts
 # - Tweaks rootfs so it matches Online Labs infrastructure
-RUN wget -qO - https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | FLAVORS=sysvinit bash
-ADD ./patches/ /
+RUN wget -qO - https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | FLAVORS=docker-based,sysvinit bash
 RUN rm -f /etc/motd && ln -s /var/run/motd /etc/motd
+ADD ./patches/etc/ /etc/
 
 # Configure locales
 RUN locale-gen

@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# This script will prepare the rootfs for the image-builder toolsuite
-
-set -e
-
-# prevent init scripts from running during install/update
-printf '#!/bin/sh\nexit 101\n' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d
