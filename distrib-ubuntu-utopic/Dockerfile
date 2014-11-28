@@ -1,9 +1,20 @@
 ## -*- docker-image-name: "armbuild/ocs-ubuntu:utopic" -*-
 FROM armbuild/ubuntu-debootstrap:utopic
+MAINTAINER Online Labs <opensource@ocs.online.net>
 
-# Prepare rootfs for image-builder
-ADD ./patches/usr/local/sbin/ /usr/local/sbin/
-RUN /usr/local/sbin/builder-enter
+# Environment
+ENV DEBIAN_FRONTEND noninteractive
+# Useful for image inheritance
+ENV OCS_BASE_IMAGE armbuild/ocs-ubuntu:utopic
+
+# Patch rootfs for docker-based builds
+RUN apt-get -q update && \
+    apt-get -y -qq install wget && \
+    apt-get clean && \
+    mkdir -p /usr/local/sbin && \
+    wget -q https://raw.githubusercontent.com/online-labs/ocs-scripts/master/skeleton-docker-based/usr/local/sbin/builder-enter -O /usr/local/sbin/builder-enter && \
+    chmod +x /usr/local/sbin/builder-enter && \
+    /usr/local/sbin/builder-enter
 
 # Install packages
 ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
@@ -56,9 +67,9 @@ RUN apt-get -q update && \
 # Patch rootfs
 # - Add ocs-scripts
 # - Tweaks rootfs so it matches Online Labs infrastructure
-RUN wget -qO - https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | FLAVORS=upstart bash
 RUN rm -f /etc/update-motd.d/10-help-text /etc/update-motd.d/00-header
-ADD ./patches/ /
+RUN wget -qO - https://raw.githubusercontent.com/online-labs/ocs-scripts/master/upgrade_root.bash | FLAVORS=docker-based,upstart bash
+ADD ./patches/etc/ /etc/
 
 # Configure locales
 RUN locale-gen en_US.UTF-8 && \
