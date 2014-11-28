@@ -32,7 +32,9 @@ RUN a2enmod rewrite && \
     ln -sf /etc/php5/mods-available/mcrypt.ini /etc/php5/apache2/conf.d/
 
 # Patch rootfs
-ADD ./patches/ /
+ADD ./patches/etc/ /etc/
+ADD ./patches/usr/local/ /usr/local/
+ADD ./patches/usr/share/ /usr/share/
 
 # Install Pydio dependencies
 RUN cd /usr/share/pydio && curl -sS https://getcomposer.org/installer | php && \

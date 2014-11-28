@@ -21,7 +21,8 @@ RUN a2enmod rewrite
 RUN chown -R www-data:www-data /etc/owncloud
 
 # Patch rootfs
-ADD ./patches/ /
+ADD ./patches/etc/ /etc/
+ADD ./patches/usr/local/ /usr/local/
 
 # Clean rootfs from image-builder
 RUN /usr/local/sbin/builder-leave

@@ -39,7 +39,9 @@ RUN wget -qO /usr/local/bin/gosu https://github.com/tianon/gosu/releases/downloa
 
 
 # Patch rootfs
-ADD ./patches/ /
+ADD ./patches/etc/ /etc/
+ADD ./patches/usr/bin/ /usr/bin/
+ADD ./patches/usr/local/ /usr/local/
 
 
 # Clean rootfs from image-builder
