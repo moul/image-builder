@@ -29,19 +29,19 @@ OMIT_SENDSIGS=0
 
 
 # Online C1 - Hacks
-[ -d /dev/net ] ||
+[ -d /dev/net ] || \
     mkdir -p /dev/net
-[ -c /dev/net/tun ] ||
+[ -c /dev/net/tun ] || \
     mknod /dev/net/tun c 10 200
-[ -f /dev/openvpn/dh.pem ] ||
+[ -f /etc/openvpn/dh.pem ] || \
     openssl dhparam -out /etc/openvpn/dh.pem 512
-[ -f /etc/openvpn/key.pem ] ||
+[ -f /etc/openvpn/key.pem ] || \
     openssl genrsa -out /etc/openvpn/key.pem 2048
 chmod 600 /etc/openvpn/key.pem
-[ -f /etc/openvpn/csr.pem ] ||
+[ -f /etc/openvpn/csr.pem ] || \
     openssl req -new -key /etc/openvpn/key.pem -out /etc/openvpn/csr.pem -subj /CN=OpenVPN/
-[ -f /etc/openvpn/cert.pem ] ||
-    openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 36525
+[ -f /etc/openvpn/cert.pem ] || \
+    openssl x509 -req -in /etc/openvpn/csr.pem -out /etc/openvpn/cert.pem -signkey /etc/openvpn/key.pem -days 24855
 
 # Regenerate on each system startups (remote ip address can change)
 MY_IP_ADDR=$(/usr/local/bin/oc-metadata PUBLIC_IP_ADDRESS)
