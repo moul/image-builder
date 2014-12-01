@@ -21,6 +21,7 @@ ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
 RUN apt-get -q update && \
     apt-get -y -qq upgrade && \
     apt-get install -y -qq \
+	ca-certificates \
 	cron \
 	curl \
 	dbus \
@@ -48,6 +49,8 @@ RUN apt-get -q update && \
 	netcat \
 	ntp \
 	ntpdate \
+	python-apt \
+	python-yaml \
 	rsync \
 	rsyslog \
 	screen \
@@ -61,7 +64,6 @@ RUN apt-get -q update && \
 	wget \
 	whiptail \
 	xnbd-client \
-        ca-certificates \
     && apt-get clean
 
 # Patch rootfs

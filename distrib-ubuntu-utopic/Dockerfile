@@ -48,6 +48,8 @@ RUN apt-get -q update && \
 	netcat \
 	ntp \
 	ntpdate \
+	python-apt \
+	python-yaml \
 	rsync \
 	rsyslog \
 	screen \
