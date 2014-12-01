@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH="${PATH:+$PATH:}/bin:/usr/bin:/usr/local/bin"
+
 [ -r /etc/lsb-release ] && . /etc/lsb-release
 
 if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
@@ -7,10 +9,9 @@ if [ -z "$DISTRIB_DESCRIPTION" ] && [ -x /usr/bin/lsb_release ]; then
 	DISTRIB_DESCRIPTION=$(lsb_release -s -d)
 fi
 
-
 [ -r /etc/ocs-release ] && . /etc/ocs-release
 
-METADATA=$(/usr/local/bin/oc-metadata)
+METADATA=$(oc-metadata --cached)
 
 metadata() {
   key=$1
@@ -25,11 +26,29 @@ volume_metadata() {
 
 INTERNAL_IP=$(/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}')
 
+KERNEL_VERSION=$(uname -r)
+if [[ $KERNEL_VERSION =~ ^3\.1[78]\.[0-9]+-[0-9]+ ]]; then
+    KERNEL_TITLE="- Mainline"
+    KERNEL_DESCRIPTION="This kernel has more features and plenty of modules"
+    KERNEL_SUGGESTION="For greater performances, use the Marvell 3.2.34 kernel instead"
+fi
+if [[ $KERNEL_VERSION =~ ^3\.2\.[35][24].* ]]; then
+    KERNEL_TITLE="- Marvell (Prioritary)"
+    KERNEL_DESCRIPTION="This kernel has the best performances on this hardware"
+    KERNEL_SUGGESTION="For mainline kernel with latest features and plenty of modules, use a 3.17 kernel instead"
+fi
+
 cat<<EOF
 
 Welcome on $IMAGE_DESCRIPTION on Online Labs' C1.
 
- * Kernel:           $(uname -o) $(uname -r) $(uname -m)
+ * Kernel:           $(uname -o) $(uname -r) $(uname -m) $KERNEL_TITLE
+EOF
+if [ "$KERNEL_DESCRIPTION" != "" ]; then echo "                     - $KERNEL_DESCRIPTION"; fi
+if [ "$KERNEL_SUGGESTION" != "" ]; then echo "                     - $KERNEL_SUGGESTION"; fi
+
+
+cat<<EOF
  * Distribution:     $IMAGE_DESCRIPTION ($IMAGE_RELEASE) on $DISTRIB_DESCRIPTION
  * Internal ip:      $INTERNAL_IP
  * External ip:      $(metadata PUBLIC_IP_ADDRESS)
