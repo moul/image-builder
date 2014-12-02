@@ -24,6 +24,7 @@ ADD ./patches/etc/apt/sources.list /etc/apt/sources.list
 RUN apt-get -q update && \
     apt-get -y -qq upgrade && \
     apt-get install -y -qq \
+	bash-completion \
 	ca-certificates \
 	cron \
 	curl \
