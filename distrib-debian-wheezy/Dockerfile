@@ -36,6 +36,7 @@ RUN apt-get -q update && \
 	htop \
 	ioping \
 	iotop \
+	iperf \
 	iptables \
 	iputils-ping \
 	isc-dhcp-client \
