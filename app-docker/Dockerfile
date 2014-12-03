@@ -7,13 +7,13 @@ RUN /usr/local/sbin/builder-enter
 
 
 # Install packages
-RUN apt-get -q update &&  \
-    apt-get -q upgrade && \
-    apt-get install -y -q \
-        bridge-utils      \
-        docker.io         \
-        fig               \
-        python-setuptools \
+RUN apt-get -q update &&      \
+    apt-get -y -qq upgrade && \
+    apt-get install -y -q     \
+        bridge-utils          \
+        docker.io             \
+        fig                   \
+        python-setuptools     \
     && apt-get clean
 
 
