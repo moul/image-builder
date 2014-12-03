@@ -1,5 +1,5 @@
 NAME =		ocs-app-docker
-VERSION =	utopic
+VERSION =	vivid
 IS_LATEST =	1
 TITLE =		Docker
 DESCRIPTION =	Docker 1.3.2 + fig + nsenter + pipework + gosu

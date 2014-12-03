@@ -1,5 +1,5 @@
-## -*- docker-image-name: "armbuild/ocs-app-docker:utopic" -*-
-FROM armbuild/ocs-distrib-ubuntu:utopic
+## -*- docker-image-name: "armbuild/ocs-app-docker:vivid" -*-
+FROM armbuild/ocs-distrib-ubuntu:vivid
 
 
 # Prepare rootfs for image-builder
@@ -10,22 +10,11 @@ RUN /usr/local/sbin/builder-enter
 RUN apt-get -q update &&  \
     apt-get -q upgrade && \
     apt-get install -y -q \
-	bridge-utils      \
-	python-setuptools \
+        bridge-utils      \
+        docker.io         \
+        fig               \
+        python-setuptools \
     && apt-get clean
-
-
-# Install docker
-RUN apt-get -y -q install libapparmor1 libdevmapper1.02.1 && apt-get clean && \
-    wget -qO /tmp/docker-1.3.2.deb https://launchpad.net/ubuntu/+source/docker.io/1.3.2~dfsg1-1ubuntu1/+build/6595242/+files/docker.io_1.3.2%7Edfsg1-1ubuntu1_armhf.deb && \
-    dpkg --force-all -i /tmp/docker-1.3.2.deb && \
-    rm -f /tmp/docker-1.3.2.deb
-
-
-# Install fig
-ADD ./sources/fig.egg /tmp/
-RUN easy_install /tmp/fig.egg && \
-    rm -f /tmp/fig.egg
 
 
 # Install Pipework
