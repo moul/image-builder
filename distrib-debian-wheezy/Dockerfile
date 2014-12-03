@@ -1,4 +1,4 @@
-## -*- docker-image-name: "armbuild/ocs-debian:wheezy" -*-
+## -*- docker-image-name: "armbuild/ocs-distrib-debian:wheezy" -*-
 FROM armbuild/debian:wheezy
 MAINTAINER Online Labs <opensource@ocs.online.net>
 

@@ -1,5 +1,5 @@
-## -*- docker-image-name: "armbuild/ocs-rescue:trusty" -*-
-FROM armbuild/ocs-ubuntu:trusty
+## -*- docker-image-name: "armbuild/ocs-service-rescue:trusty" -*-
+FROM armbuild/ocs-distrib-ubuntu:trusty
 
 # Prepare rootfs for image-builder
 RUN /usr/local/sbin/builder-enter

@@ -1,4 +1,4 @@
-## -*- docker-image-name: "armbuild/ocs-ubuntu:utopic" -*-
+## -*- docker-image-name: "armbuild/ocs-distrib-ubuntu:utopic" -*-
 FROM armbuild/ubuntu-debootstrap:utopic
 MAINTAINER Online Labs <opensource@ocs.online.net>
 

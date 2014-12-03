@@ -1,5 +1,5 @@
 ## -*- docker-image-name: "armbuild/ocs-app-pydio:utopic" -*-
-FROM armbuild/ocs-ubuntu:utopic
+FROM armbuild/ocs-distrib-ubuntu:utopic
 
 # Prepare rootfs for image-builder
 RUN /usr/local/sbin/builder-enter

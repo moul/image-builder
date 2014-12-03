@@ -1,5 +1,5 @@
-## -*- docker-image-name: "armbuild/ocs-tryit-docker:utopic" -*-
-FROM armbuild/ocs-docker:utopic
+## -*- docker-image-name: "armbuild/ocs-service-tryit:utopic" -*-
+FROM armbuild/ocs-distrib-docker:utopic
 
 # Prepare rootfs for image-builder
 RUN /usr/local/sbin/builder-enter
