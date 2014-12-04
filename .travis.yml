@@ -1,6 +1,0 @@
-language: bash
-
-script:
-    - for file in */build; do bash -n $file; done
-    - for file in */Dockerfile; do bash -n $file; done
-    - for file in */Makefile; do make -n -C $(dirname $file); done
